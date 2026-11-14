@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Graphics
+## Notes: Presets de gráficos de un clic (de Más FPS a Máxima calidad), copia de seguridad de tus ajustes para volver a ellos y contador de FPS.
+## Author: Blazzito
+## Version: 0.2.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Graphics.lua
+Config.lua

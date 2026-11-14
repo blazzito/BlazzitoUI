@@ -1,0 +1,26 @@
+## Interface: 16001
+## Title: |cff4fc3f7BlazzitoUI|r
+## Notes: Interfaz modular y ligera. Incluye los marcos de unidad; los demás módulos (Blazzito_*) cuelgan de este en la lista de addons.
+## Author: Blazzito
+## Version: 0.8.4
+## Category: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+## SavedVariables: BlazzitoUIDB
+
+# Núcleo
+Core\Core.lua
+Core\Media.lua
+Core\Blizzard.lua
+Core\Widgets.lua
+Core\Movers.lua
+Core\Config.lua
+Core\Profiles.lua
+Core\Pad.lua
+Core\GameMenu.lua
+
+# Módulos
+Modules\UnitFrames\UnitFrames.lua
+Modules\UnitFrames\Elements.lua
+Modules\UnitFrames\Combo.lua
+Modules\UnitFrames\Config.lua
+Modules\QoL\QoL.lua

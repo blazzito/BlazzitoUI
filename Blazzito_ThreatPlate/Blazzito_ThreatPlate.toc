@@ -1,0 +1,11 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_ThreatPlate
+## Notes: Muestra tu porcentaje de aggro en las placas de los enemigos. Módulo de BlazzitoUI.
+## Author: Blazzito
+## Version: 0.6.1
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Blazzito_ThreatPlate.lua

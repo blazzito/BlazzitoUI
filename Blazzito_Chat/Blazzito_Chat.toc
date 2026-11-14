@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Chat
+## Notes: El chat de WoW con el estilo de BlazzitoUI: copiar mensajes, historial, enlaces, comandos pulsables y emoticonos.
+## Author: Blazzito
+## Version: 0.1.2
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Chat.lua
+Config.lua

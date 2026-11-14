@@ -1,0 +1,15 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_CombatText
+## Notes: Texto de combate en arcos: daño y curas entrantes y salientes, críticos, avisos, botín y más.
+## Author: Blazzito
+## Version: 0.4.1
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Display.lua
+Sources.lua
+Flair.lua
+Cooldowns.lua
+Config.lua

@@ -1,0 +1,14 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Bags
+## Notes: Las bolsas de WoW con el estilo de BlazzitoUI: nivel de objeto, flechas de mejora, objetos nuevos, basura, acciones rápidas y banco.
+## Author: Blazzito
+## Version: 0.3.1
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Bags.lua
+QuickActions.lua
+LootJunk.lua
+Config.lua

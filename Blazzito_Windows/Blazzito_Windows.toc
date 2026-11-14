@@ -1,0 +1,19 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Windows
+## Notes: Las ventanas de Blizzard con el estilo de BlazzitoUI, una a una. Empieza por la de personaje: casillas con borde de calidad, nivel de objeto, durabilidad, fondo de clase, estadísticas, encantamientos y gemas, reputación y habilidades, panel de la mascota la ventana de talentos el libro de hechizos unificado, el mapa con el registro de misiones, entrenadores, botín, comerciante, correo, profesiones y subastas.
+## Author: Blazzito
+## Version: 0.7.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Skin.lua
+Character.lua
+Pet.lua
+Talents.lua
+Spellbook.lua
+Map.lua
+Others.lua
+Menus.lua
+Config.lua

@@ -1,0 +1,28 @@
+Fuentes incluidas en Blazzito_CombatText
+=======================================
+
+Estas fuentes se distribuyen bajo licencias libres que permiten incluirlas en
+otro software. Cada archivo .ttf conserva dentro (en sus metadatos) su aviso de
+copyright y el texto de su licencia, como piden esas licencias.
+
+RussoOne.ttf
+    Russo One. Copyright (c) 2011-2012, Jovanny Lemonad (jovanny.ru),
+    with Reserved Font Name "Russo".
+    SIL Open Font License, Version 1.1.
+
+Changa.ttf
+    Changa. Copyright 2011 Eduardo Tunni (www.tipo.net.ar).
+    SIL Open Font License, Version 1.1.
+
+BarlowCondensed.ttf
+    Barlow Condensed. Copyright 2017 The Barlow Project Authors
+    (https://github.com/jpt/barlow).
+    SIL Open Font License, Version 1.1.
+
+PTSansNarrowBold.ttf
+    PT Sans Narrow Bold. Copyright (c) 2009-2010 ParaType Ltd.
+    (http://paratype.com/public). ParaType Free Font License / SIL Open
+    Font License, Version 1.1.
+
+Texto completo de la SIL Open Font License 1.1:
+https://openfontlicense.org/open-font-license-official-text/

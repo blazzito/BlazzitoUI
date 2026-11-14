@@ -1,0 +1,15 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Macros
+## Notes: Las macros esenciales de tu clase en una ventana junto al libro de hechizos: se desbloquean al aprender la habilidad, se arrastran a tus barras y algunas se actualizan solas (última arma, comida de la mascota, mejores pociones). Módulo de BlazzitoUI.
+## Author: Blazzito
+## Version: 0.1.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Catalog.lua
+Macros.lua
+Window.lua
+Marks.lua
+Config.lua

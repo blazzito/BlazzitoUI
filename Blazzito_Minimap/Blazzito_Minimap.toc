@@ -1,0 +1,13 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Minimap
+## Notes: El minimapa de WoW con el estilo de BlazzitoUI: tamaño, formas, puntos cardinales, zona, hora, coordenadas, calendario botones de addons recogidos y huella de tu mascota.
+## Author: Blazzito
+## Version: 0.3.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Minimap.lua
+Pet.lua
+Config.lua

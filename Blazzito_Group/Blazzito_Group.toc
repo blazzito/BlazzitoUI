@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Group
+## Notes: Marcos de grupo y de banda con el estilo de BlazzitoUI: rol, disipables, rango, aggro y más.
+## Author: Blazzito
+## Version: 0.1.2
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Group.lua
+Config.lua

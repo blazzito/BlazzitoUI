@@ -1,0 +1,13 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Setup
+## Notes: Copia los ajustes del juego de tu main (barras de acción, mouseover, opciones de interfaz, Edit Mode, addons activos) a tus otros personajes. Está en /bui > Perfiles. Sustituye a Blazz_Setup.
+## Author: Blazzito
+## Version: 1.2.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## OptionalDeps: Blazz_Setup
+## SavedVariables: BlazzSetupDB
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Setup.lua

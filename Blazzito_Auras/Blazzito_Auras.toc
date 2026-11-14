@@ -1,0 +1,13 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Auras
+## Notes: Beneficios y perjuicios sobre los marcos de unidad de BlazzitoUI, con marca para lo que puedes disipar.
+## Author: Blazzito
+## Version: 0.3.1
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Auras.lua
+BuffFrame.lua
+Config.lua

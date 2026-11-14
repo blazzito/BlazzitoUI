@@ -1,0 +1,14 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Gamepad
+## Notes: Mando: al entrar con un mando conectado pregunta si quieres la interfaz de mando o la de teclado y ratón, y adapta BlazzitoUI al estilo de mando de Blizzard.
+## Author: Blazzito
+## Version: 0.1.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Gamepad.lua
+Chooser.lua
+Skin.lua
+Config.lua

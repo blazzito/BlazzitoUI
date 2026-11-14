@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Nameplates
+## Notes: Placas de nombre de los enemigos con el estilo de BlazzitoUI e indicador de rango.
+## Author: Blazzito
+## Version: 0.1.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+Nameplates.lua
+Config.lua
