@@ -1,5 +1,7 @@
 # Solo BlazzitoUI: todo lo demás (addons de otros autores, CLAUDE.md...) fuera.
 /*
 !/.gitignore
+!/README.md
+!/capturas/
 !/BlazzitoUI/
 !/Blazzito_*/
