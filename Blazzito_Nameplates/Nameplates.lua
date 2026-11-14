@@ -415,17 +415,12 @@ function NP.UpdateCast(p, kind)
     cast:Show()
 end
 
--- Indicador de rango: al lado de la insignia de aggro si está visible; si no,
--- a la derecha de la barra.
+-- Indicador de rango: siempre a la derecha de la barra (no se mueve al entrar
+-- en combate; la insignia de aggro va centrada sobre la barra y no lo tapa).
 function NP.PlaceRange(p)
     local range = p.range
     range:ClearAllPoints()
-    local badge = ns.ThreatPlate and ns.ThreatPlate.BadgeFor and ns.ThreatPlate.BadgeFor(p:GetParent())
-    if badge and badge:IsShown() then
-        range:SetPoint("LEFT", badge, "RIGHT", 3, 0)
-    else
-        range:SetPoint("LEFT", p.block, "RIGHT", 4, 0)
-    end
+    range:SetPoint("LEFT", p.block, "RIGHT", 4, 0)
 end
 
 function NP.UpdateRange(p)

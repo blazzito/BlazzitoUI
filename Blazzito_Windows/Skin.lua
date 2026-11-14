@@ -30,7 +30,7 @@ local Win = ns.NewModule("Windows", "Ventanas", {
     },
     pet = { enabled = true, hideTab = true, rotate = true, moveHappiness = true },
     talents = { enabled = true, art = 40, ranks = true, summary = true, glow = true },
-    spellbook = { enabled = true, expand = true, markUnbound = true },
+    spellbook = { enabled = true, expand = true, markUnbound = true, markOldRank = true },
     worldmap = { enabled = true, headers = true, cards = true },
     trainer = { enabled = true }, loot = { enabled = true }, merchant = { enabled = true },
     mail = { enabled = true }, professions = { enabled = true }, auction = { enabled = true },

@@ -123,9 +123,11 @@ function B.Read()
                 local it = C_SpellBook.GetSpellBookItemInfo(slot, bank)
                 local kind = it and it.itemType
                 local keep = it and (kind == Kind("Spell") or kind == Kind("FutureSpell") or kind == Kind("Flyout"))
-                if keep and kind == Kind("Spell") and not allRanks and C_SpellBook.IsSpellBookItemLowRank then
+                local lowRank = false
+                if keep and kind == Kind("Spell") and C_SpellBook.IsSpellBookItemLowRank then
                     local okLow, low = pcall(C_SpellBook.IsSpellBookItemLowRank, slot, bank)
-                    if okLow and low then keep = false end
+                    lowRank = okLow and Readable(low) and true or false
+                    if lowRank and not allRanks then keep = false end
                 end
                 if keep and hidePassives and it.isPassive then keep = false end
                 if keep and query and query ~= "" then
@@ -138,6 +140,7 @@ function B.Read()
                         slot = slot, spellID = it.spellID, actionID = it.actionID, kind = kind,
                         name = it.name, sub = it.subName, icon = it.iconID, passive = it.isPassive,
                         future = kind == Kind("FutureSpell"), flyout = kind == Kind("Flyout"),
+                        lowRank = lowRank,
                     }
                 end
             end
@@ -307,9 +310,16 @@ end
 local onBars, onBarsStale = nil, true
 local MAX_ACTION = 180
 
+local function SpellRank(id)
+    if not (id and C_Spell and C_Spell.GetSpellSubtext) then return nil end
+    local ok, sub = pcall(C_Spell.GetSpellSubtext, id)
+    sub = ok and Readable(sub)
+    return (type(sub) == "string" and sub ~= "") and sub or nil
+end
+
 local function BarSets()
     if onBars and not onBarsStale then return onBars end
-    local ids, names, flyouts = {}, {}, {}
+    local ids, names, flyouts, byName = {}, {}, {}, {}
     if GetActionInfo then
         for slot = 1, MAX_ACTION do
             local ok, kind, id, subType = pcall(GetActionInfo, slot)
@@ -324,7 +334,11 @@ local function BarSets()
             if kind == "spell" and id then
                 ids[id] = true
                 local name = SpellName(id)
-                if name then names[name] = true end
+                if name then
+                    names[name] = true
+                    byName[name] = byName[name] or {}
+                    byName[name][id] = true
+                end
             elseif kind == "flyout" and id then
                 flyouts[id] = true
                 -- Los hechizos de dentro del grupo (aspectos, rastreos,
@@ -349,8 +363,29 @@ local function BarSets()
             end
         end
     end
-    onBars, onBarsStale = { ids = ids, names = names, flyouts = flyouts }, false
+    onBars, onBarsStale = { ids = ids, names = names, flyouts = flyouts, byName = byName }, false
     return onBars
+end
+
+-- Rango que hay en tus barras de ese hechizo si es OTRO (y anterior) al mejor
+-- que conoces; nil si está al día. Solo cuenta con rangos escritos en los dos
+-- ("Rango 2" / "Rango 3"): así no salta con hechizos que el juego sustituye
+-- por otros del mismo nombre.
+function B.OldRankOnBars(item)
+    if not item or item.passive or item.future or item.pet or item.flyout or item.lowRank then return nil end
+    if not item.spellID then return nil end
+    local sets = BarSets()
+    if sets.ids[item.spellID] then return nil end
+    local mine = SpellRank(item.spellID) or (type(item.sub) == "string" and item.sub ~= "" and item.sub) or nil
+    if not mine then return nil end
+    local name = SpellName(item.spellID) or item.name
+    local found = name and sets.byName[name]
+    if not found then return nil end
+    for id in pairs(found) do
+        local theirs = SpellRank(id)
+        if theirs and theirs ~= mine then return theirs end
+    end
+    return nil
 end
 
 -- true / false; nil si no aplica (pasivas, futuras, la mascota).
@@ -375,6 +410,10 @@ local function Tooltip(self)
     if Opts().markUnbound and B.OnBars(d.item) == false then
         local r, g, b = Win.Accent()
         GameTooltip:AddLine(ns.Translate("No está en tus barras"), r or 1, g or 0.82, b or 0)
+    end
+    local old = Opts().markOldRank ~= false and B.OldRankOnBars(d.item)
+    if old then
+        GameTooltip:AddLine(ns.LF("En tus barras tienes %s: arrastra este para mejorarlo.", old), 0.35, 0.9, 0.45, true)
     end
     GameTooltip:Show()
 end
@@ -416,6 +455,19 @@ local function SpellButton(book, i)
     d.dot:SetSize(6, 6)
     d.dot:SetPoint("CENTER", d.icon, "TOPRIGHT", -2, -2)
     d.dot:Hide()
+    -- Rango anterior en tus barras: flecha verde en la esquina del icono.
+    d.upBox = b:CreateTexture(nil, "OVERLAY", nil, 6)
+    d.upBox:SetSize(13, 13)
+    d.upBox:SetPoint("TOPRIGHT", d.icon, "TOPRIGHT", 2, 2)
+    d.upBox:SetColorTexture(0.04, 0.05, 0.06, 0.9)
+    d.upBox:Hide()
+    d.up = b:CreateTexture(nil, "OVERLAY", nil, 7)
+    d.up:SetSize(9, 9)
+    d.up:SetPoint("CENTER", d.upBox, "CENTER", 0, 0)
+    d.up:SetTexture(M.ICONS.chevron)
+    d.up:SetRotation(math.pi / 2)
+    d.up:SetVertexColor(0.35, 0.9, 0.45)
+    d.up:Hide()
     d.cd = CreateFrame("Cooldown", nil, b, "CooldownFrameTemplate")
     d.cd:SetAllPoints(d.icon)
     d.name = b:CreateFontString(nil, "ARTWORK")
@@ -473,14 +525,21 @@ function B.PaintUnbound(b)
     local d = Win.Parts(b)
     if not d.unbound then return end
     local mark = Opts().markUnbound and B.OnBars(d.item) == false
+    local old = not mark and Opts().markOldRank ~= false and B.OldRankOnBars(d.item) and true or false
     if mark then
         local r, g, bl = Win.Accent()
         r, g, bl = r or 1, g or 0.82, bl or 0
         d.unbound:SetColorTexture(r, g, bl, 0.09)
         d.dot:SetColorTexture(r, g, bl, 1)
+    elseif old then
+        d.unbound:SetColorTexture(0.35, 0.9, 0.45, 0.08)
     end
-    d.unbound:SetShown(mark)
+    d.unbound:SetShown(mark or old)
     d.dot:SetShown(mark)
+    if d.up then
+        d.up:SetShown(old)
+        d.upBox:SetShown(old)
+    end
 end
 
 local function Cooldown(b)

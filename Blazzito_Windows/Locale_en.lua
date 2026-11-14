@@ -38,6 +38,10 @@ BlazzitoUI.AddLocale("en", {
 
     -- Spellbook.lua
     ["No está en tus barras"] = "Not on your bars",
+    ["En tus barras tienes %s: arrastra este para mejorarlo."] = "Your bars have %s: drag this one onto it to upgrade.",
+    ["Avisar si en tus barras hay un rango anterior"] = "Warn when your bars have an older rank",
+    ["Rango anterior: si en tus barras está, por ejemplo, el Rango 2 de un hechizo y ya conoces el Rango 3, el libro lo marca en verde con una flecha. Arrastra el rango nuevo encima del viejo para mejorarlo."] =
+        "Older rank: if your bars have, say, Rank 2 of a spell and you already know Rank 3, the spellbook marks it in green with an arrow. Drag the new rank onto the old one to upgrade it.",
     ["Pasiva"] = "Passive",
     ["Grupo de hechizos"] = "Spell group",
     ["Automático"] = "Auto",

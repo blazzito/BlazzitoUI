@@ -144,7 +144,12 @@ ns.Config.RegisterPage("windows", "Ventanas", 21, function(content, width)
     L:Row(W.Toggle(content, col, "Resaltar los hechizos que no tienes en tus barras", function() return sbo.markUnbound end, function(v)
               sbo.markUnbound = v
               Win.ApplyAll()
-          end), nil, function() return talOn() and sbo.enabled end)
+          end),
+          W.Toggle(content, col, "Avisar si en tus barras hay un rango anterior", function() return sbo.markOldRank ~= false end, function(v)
+              sbo.markOldRank = v
+              Win.ApplyAll()
+          end), function() return talOn() and sbo.enabled end, function() return talOn() and sbo.enabled end)
+    L:Note("Rango anterior: si en tus barras está, por ejemplo, el Rango 2 de un hechizo y ya conoces el Rango 3, el libro lo marca en verde con una flecha. Arrastra el rango nuevo encima del viejo para mejorarlo.")
     L:Note("El libro unificado pone la parte general y cada especialización en el mismo libro, una sección tras otra con su encabezado. La mascota tiene su propia pestaña en el libro: clic izquierdo lanza su hechizo y clic derecho le pone o quita el lanzamiento automático. Respeta las opciones del libro de Blizzard (ocultar pasivas, mostrar todos los rangos) y su buscador. Al pasar el ratón por un hechizo, parpadea en tus barras; Mayús + clic lo enlaza en el chat. En combate se puede lanzar desde él, pero pasar de página o cambiar a la mascota espera al final del combate.")
     L:Note("Cada talento lleva un anillo del color de su estado: al máximo, tu color de clase (con halo); con puntos, tu color más suave; disponible, claro; bloqueado, oscuro. El arte de cada árbol se queda de fondo, más tenue, para que manden los iconos. Las pestañas, el buscador y «Aplicar cambios» pasan a ser planos. /bui ventanas muestra qué piezas encuentra en la ventana (ábrela antes).")
     L:EndCard()
