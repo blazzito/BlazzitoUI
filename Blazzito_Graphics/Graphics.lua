@@ -23,6 +23,10 @@ if not ns then return end
 local G = ns.NewModule("Graphics", "Gráficos", { sameEverywhere = true })
 ns.Graphics = G
 
+-- Traducción al mostrar (con respaldo por si el núcleo no la trae).
+local Tr = ns.Translate or function(s) return s end
+local LF = ns.LF or string.format
+
 ---------------------------------------------------------------------------
 -- Acceso a los ajustes (CVars)
 ---------------------------------------------------------------------------
@@ -122,26 +126,26 @@ G.PRESETS = {
         c = { textureFilteringMode = 4, ResampleAlwaysSharpen = 1 },
     },
     {
-        key = "low", name = "Bajo",
+        key = "low", name = "Baja",
         desc = "Sombras básicas y algo más de distancia.",
         quality = 3, p = { 2, 3, 3, 3, 1, 1, 3, 0, 0, 1, 1, 1 },
         c = { textureFilteringMode = 3 },
     },
     {
-        key = "medium", name = "Medio",
+        key = "medium", name = "Media",
         desc = "Texturas altas, sombras medias y efectos ligeros.",
         quality = 5, p = { 2, 5, 5, 5, 2, 2, 3, 1, 1, 2, 2, 1 },
         c = { textureFilteringMode = 4 },
     },
     {
-        key = "high", name = "Alto",
+        key = "high", name = "Alta",
         desc = "Se ve muy bien en casi cualquier sitio.",
         quality = 7, p = { 2, 7, 7, 7, 3, 2, 4, 2, 2, 3, 2, 1 },
         c = { textureFilteringMode = 5 },
     },
     {
-        key = "highfps", name = "Alto + FPS",
-        desc = "Alto con más distancia y hierba, pero quitando los efectos caros que casi no se notan.",
+        key = "highfps", name = "Alta + FPS",
+        desc = "Alta con más distancia y hierba, pero quitando los efectos caros que casi no se notan.",
         quality = 8, p = { 2, 8, 8, 8, 3, 3, 4, 1, 2, 2, 2, 1 },
         c = {
             textureFilteringMode = 5, ResampleAlwaysSharpen = 1,
@@ -320,9 +324,10 @@ function G.Apply(key)
         local _, _, lowered = Write(list)
         Recheck(preset.c)
         G.db.preset = key
-        local msg = "gráficos: |cff4fc3f7" .. preset.name .. "|r aplicado."
+        local msg = LF("gráficos: |cff4fc3f7%s|r aplicado.", Tr(preset.name))
         if lowered > 0 then
-            msg = msg .. " " .. lowered .. (lowered == 1 and " ajuste bajado" or " ajustes bajados") .. " porque tu equipo no admite el nivel más alto."
+            msg = msg .. " " .. LF(lowered == 1 and "%d ajuste bajado porque tu equipo no admite el nivel más alto."
+                or "%d ajustes bajados porque tu equipo no admite el nivel más alto.", lowered)
         end
         ns.Print(msg)
         if G.OnChanged then G.OnChanged() end
@@ -387,11 +392,11 @@ end
 -- Qué está frenando los FPS, en una frase.
 function G.Limiter()
     local found = {}
-    if Get("vsync") == "1" then found[#found + 1] = "la sincronización vertical (no pasa de los Hz de tu monitor)" end
-    if Get("useMaxFPS") == "1" then found[#found + 1] = "el límite de FPS del juego (" .. tostring(Get("maxFPS")) .. ")" end
-    if Get("useTargetFPS") == "1" then found[#found + 1] = "los FPS objetivo (" .. tostring(Get("targetFPS")) .. ")" end
-    if #found > 0 then return "Limitan tus FPS: " .. table.concat(found, ", ") .. "." end
-    return "El juego no limita tus FPS. Si se quedan clavados en 60, los frena tu monitor (60 Hz), el panel de tu gráfica (NVIDIA o AMD, con sincronización vertical o límite forzados) o Windows en modo ventana."
+    if Get("vsync") == "1" then found[#found + 1] = Tr("la sincronización vertical (no pasa de los Hz de tu monitor)") end
+    if Get("useMaxFPS") == "1" then found[#found + 1] = LF("el límite de FPS del juego (%s)", tostring(Get("maxFPS"))) end
+    if Get("useTargetFPS") == "1" then found[#found + 1] = LF("los FPS objetivo (%s)", tostring(Get("targetFPS"))) end
+    if #found > 0 then return LF("Limitan tus FPS: %s.", table.concat(found, ", ")) end
+    return Tr("El juego no limita tus FPS. Si se quedan clavados en 60, los frena tu monitor (60 Hz), el panel de tu gráfica (NVIDIA o AMD, con sincronización vertical o límite forzados) o Windows en modo ventana.")
 end
 
 ---------------------------------------------------------------------------

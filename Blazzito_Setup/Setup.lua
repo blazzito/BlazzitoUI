@@ -53,9 +53,12 @@ local db               -- BlazzitoUIDB.setup
 local pendingApply     -- main a aplicar al salir de combate
 local applying         -- esperando a que Edit Mode termine de cargar
 
-local function Print(msg)
-    ns.Print("ajustes del juego: " .. msg)
+-- Aviso al chat (traducido): Print("texto") o Print("texto con %s", valor).
+local function Print(msg, ...)
+    local text = select("#", ...) > 0 and ns.LF(msg, ...) or ns.Translate(msg)
+    ns.Print(ns.Translate("ajustes del juego: ") .. text)
 end
+local Tr, LF = ns.Translate, ns.LF
 
 local function Me() return ns.charKey end
 
@@ -104,7 +107,7 @@ local function TryApplyLayout(name)
             return true
         end
     end
-    Print("no encontré el diseño de Edit Mode '" .. tostring(name) .. "' (puede ser un diseño solo del main).")
+    Print("no encontré el diseño de Edit Mode '%s' (puede ser un diseño solo del main).", tostring(name))
     return true
 end
 
@@ -178,14 +181,14 @@ local function SyncAddons(src)
         for name, want in pairs(wanted) do
             if after[name] ~= nil and after[name] ~= want then
                 -- Sin firma guardada: se reintenta en el próximo inicio de sesión.
-                Print("no pude cambiar el addon '" .. name .. "'; usa la lista de addons del juego.")
+                Print("no pude cambiar el addon '%s'; usa la lista de addons del juego.", name)
                 return 0
             end
         end
         table.sort(enabled)
         table.sort(disabled)
-        if #disabled > 0 then Print("addons desactivados como en el main: " .. table.concat(disabled, ", ")) end
-        if #enabled > 0 then Print("addons activados como en el main: " .. table.concat(enabled, ", ")) end
+        if #disabled > 0 then Print("addons desactivados como en el main: %s", table.concat(disabled, ", ")) end
+        if #enabled > 0 then Print("addons activados como en el main: %s", table.concat(enabled, ", ")) end
     end
     db.addonSync[Me()] = AddonSignature(wanted)
     return changed
@@ -262,8 +265,8 @@ local function FinishApply(sourceKey, layoutApplied)
     if layoutApplied then
         local src = db.chars[sourceKey]
         db.applied[Me()] = sourceKey
-        Print("ajustes de " .. ColoredName(src) .. " aplicados.")
-        StaticPopup_Show("BLAZZITOUI_SETUP_RELOAD", ColoredName(src))
+        Print("ajustes de %s aplicados.", ColoredName(src))
+        ns.ShowPopup("BLAZZITOUI_SETUP_RELOAD", ColoredName(src))
     else
         -- No se marca como aplicado: se reintenta en el próximo inicio de sesión.
         Print("Edit Mode no terminó de cargar; lo reintentaré al volver a entrar (o pulsa «Aplicar ahora» en Perfiles).")
@@ -328,7 +331,7 @@ local function AutoApply()
     local wanted = src.settings.addons
     if db.copy.addons and wanted and db.addonSync[me] ~= AddonSignature(wanted) then
         if SyncAddons(src) > 0 then
-            StaticPopup_Show("BLAZZITOUI_SETUP_RELOAD", ColoredName(src))
+            ns.ShowPopup("BLAZZITOUI_SETUP_RELOAD", ColoredName(src))
         end
     end
 end
@@ -336,14 +339,17 @@ end
 function S.SetMain()
     S.UpdateRecord(true)
     db.main = Me()
-    Print(ColoredName(db.chars[db.main]) .. " es ahora tu main. Sus ajustes se copiarán a los demás personajes.")
+    Print("%s es ahora tu main. Sus ajustes se copiarán a los demás personajes.", ColoredName(db.chars[db.main]))
 end
 
 function S.SetAuto()
     db.main = "AUTO"
     local key = S.MainKey()
-    Print("modo automático: el main será tu personaje de nivel más alto"
-        .. (key and (" (ahora: " .. ColoredName(db.chars[key]) .. ")") or "") .. ".")
+    if key then
+        Print("modo automático: el main será tu personaje de nivel más alto (ahora: %s).", ColoredName(db.chars[key]))
+    else
+        Print("modo automático: el main será tu personaje de nivel más alto.")
+    end
 end
 
 ---------------------------------------------------------------------------
@@ -466,23 +472,23 @@ local function CharacterLines()
         local rec = db.chars[key]
         local tags = {}
         if key == mainKey then tags[#tags + 1] = "|cffffd100[main]|r" end
-        if key == Me() then tags[#tags + 1] = "|cff33ff99[actual]|r" end
-        if not rec.settings then tags[#tags + 1] = "|cff888888(sin ajustes guardados)|r" end
+        if key == Me() then tags[#tags + 1] = "|cff33ff99" .. Tr("[actual]") .. "|r" end
+        if not rec.settings then tags[#tags + 1] = "|cff888888" .. Tr("(sin ajustes guardados)") .. "|r" end
         local source = db.chars[db.applied[key] or ""]
-        if source then tags[#tags + 1] = "|cff888888copiado de " .. FullName(source) .. "|r" end
-        lines[#lines + 1] = ColoredName(rec) .. " |cff999999(nivel " .. (rec.level or "?") .. ")|r  " .. table.concat(tags, " ")
+        if source then tags[#tags + 1] = "|cff888888" .. LF("copiado de %s", FullName(source)) .. "|r" end
+        lines[#lines + 1] = ColoredName(rec) .. " |cff999999" .. LF("(nivel %s)", rec.level or "?") .. "|r  " .. table.concat(tags, " ")
     end
-    return #lines > 0 and table.concat(lines, "\n") or "(ninguno todavía)"
+    return #lines > 0 and table.concat(lines, "\n") or Tr("(ninguno todavía)")
 end
 
 local function MainText()
     local mainKey = S.MainKey()
     local rec = mainKey and db.chars[mainKey]
-    local mode = db.main == "AUTO" and "|cff888888(automático: el de nivel más alto)|r" or "|cff888888(fijado a mano)|r"
+    local mode = "|cff888888" .. Tr(db.main == "AUTO" and "(automático: el de nivel más alto)" or "(fijado a mano)") .. "|r"
     if rec then
-        return "Main: " .. ColoredName(rec) .. " |cff999999(nivel " .. (rec.level or "?") .. ")|r  " .. mode
+        return "Main: " .. ColoredName(rec) .. " |cff999999" .. LF("(nivel %s)", rec.level or "?") .. "|r  " .. mode
     end
-    return "Main: |cffff5555ninguno todavía|r  " .. mode
+    return "Main: |cffff5555" .. Tr("ninguno todavía") .. "|r  " .. mode
 end
 
 if ns.Profiles and ns.Profiles.AddCard then

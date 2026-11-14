@@ -21,6 +21,7 @@ if not GP then return end
 local Pad, W = ns.Pad, ns.Widgets
 local T = W.T
 local ACCENT = W.COLORS.accent
+local Tr, LF = ns.Translate, ns.LF
 
 local TIMEOUT = 30
 local GAMEPAD, MKB = 1, 0   -- Enum.InputDeviceInterfaceType
@@ -62,15 +63,15 @@ local function Option(parent, name, gamepad, title, desc, key, letter)
     b.glyph:SetPoint("TOPLEFT", 12, -12)
     b.title = W.Text(b, 15, T.text, false, "medium")
     b.title:SetPoint("LEFT", b.glyph, "RIGHT", 8, 0)
-    b.title:SetText(title)
+    b.title:SetText(Tr(title))
     b.now = W.Text(b, 10, ACCENT, false, "medium")
     b.now:SetPoint("TOPRIGHT", -10, -14)
-    b.now:SetText(W.Upper("ahora"))
+    b.now:SetText(W.Upper(Tr("ahora")))
     b.desc = W.Text(b, 12, T.dim, true)
     b.desc:SetPoint("TOPLEFT", 12, -44)
     b.desc:SetPoint("RIGHT", -12, 0)
     b.desc:SetJustifyH("LEFT")
-    b.desc:SetText(desc)
+    b.desc:SetText(Tr(desc))
     b.gamepad = gamepad
     b.bindName = name
 
@@ -136,7 +137,7 @@ local function Build()
     f:SetScript("OnUpdate", function(self, elapsed)
         self.left = (self.left or TIMEOUT) - elapsed
         if self.left <= 0 then self:Close() return end
-        self.timer:SetText(string.format("Se cierra en %d s sin cambiar nada", math.ceil(self.left)))
+        self.timer:SetText(LF("Se cierra en %d s sin cambiar nada", math.ceil(self.left)))
     end)
 
     -- Cada opción: macro si cambia el estilo; si ya es el actual, solo cierra.
@@ -178,8 +179,8 @@ function GP.ShowChooser(force)
     local devices = Pad.Devices()
     if #devices == 0 and not force then return false end
     chooser = chooser or Build()
-    chooser.sub:SetText(#devices > 0 and ("Hay un mando conectado: " .. devices[1] .. ".")
-        or "No se detecta ningún mando conectado.")
+    chooser.sub:SetText(#devices > 0 and LF("Hay un mando conectado: %s.", devices[1])
+        or Tr("No se detecta ningún mando conectado."))
     chooser.left = TIMEOUT
     chooser.never:Refresh()
     chooser:Arm()

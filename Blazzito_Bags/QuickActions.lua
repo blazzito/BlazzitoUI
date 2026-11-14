@@ -142,7 +142,7 @@ cast:SetScript("OnEnter", function(self)
     if not (self.bag and GameTooltip) then return end
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     if GameTooltip.SetBagItem then GameTooltip:SetBagItem(self.bag, self.slot) end
-    GameTooltip:AddLine("Alt+clic: " .. tostring(SpellName(self.spell)), 0.31, 0.76, 0.97)
+    GameTooltip:AddLine(ns.LF("Alt+clic: %s", tostring(SpellName(self.spell))), 0.31, 0.76, 0.97)
     GameTooltip:Show()
 end)
 cast:SetScript("OnLeave", function(self)

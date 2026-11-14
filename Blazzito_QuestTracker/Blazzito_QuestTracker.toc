@@ -9,5 +9,6 @@
 ## OptionalDeps: Questie, SkillUpForever
 ## IconTexture: Interface/AddOns/BlazzitoUI/icon
 
+Locale_en.lua
 QuestTracker.lua
 Config.lua

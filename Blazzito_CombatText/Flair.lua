@@ -55,7 +55,7 @@ function F.Options(value, crit)
         opts.burst = o.critBurst
         opts.shake = o.critShake
         if o.critLabel then
-            opts.label = (o.streak and F.streak >= 2) and ("¡Crítico ×" .. F.streak .. "!") or "¡Crítico!"
+            opts.label = (o.streak and F.streak >= 2) and ns.LF("¡Crítico ×%d!", F.streak) or ns.Translate("¡Crítico!")
         end
     end
     return opts
@@ -89,17 +89,19 @@ function F.EndFight()
     if not (f and O().summary) or f.hits == 0 then return end
     local secs = math.max(1, GetTime() - f.start)
     if f.readable and f.total > 0 then
-        CT.Emit("notification", "Combate: %s de daño · %s por segundo", CT.Amount(f.total),
+        CT.Emit("notification", ns.Translate("Combate: %s de daño · %s por segundo"), CT.Amount(f.total),
             CT.Amount(math.floor(f.total / secs + 0.5)), GOLD, false, nil, { scale = 0.85 })
         if f.best > 0 then
-            local text = "Mayor golpe: %s" .. (f.bestName and (" (" .. Escape(f.bestName) .. ")") or "")
+            local text = ns.Translate("Mayor golpe: %s") .. (f.bestName and (" (" .. Escape(ns.Translate(f.bestName)) .. ")") or "")
             C_Timer.After(0.35, function()
                 CT.Emit("notification", text, CT.Amount(f.best), nil, GOLD, false, f.bestIcon, { scale = 0.8 })
             end)
         end
     else
-        CT.Emit("notification", string.format("Combate: %d %s en %d s", f.hits, f.hits == 1 and "golpe" or "golpes",
-            math.floor(secs + 0.5)), nil, nil, GOLD, false, nil, { scale = 0.85 })
+        local rounded = math.floor(secs + 0.5)
+        local text = f.hits == 1 and ns.LF("Combate: %d golpe en %d s", f.hits, rounded)
+            or ns.LF("Combate: %d golpes en %d s", f.hits, rounded)
+        CT.Emit("notification", text, nil, nil, GOLD, false, nil, { scale = 0.85 })
     end
 end
 
@@ -114,7 +116,7 @@ function F.Kill(guid, name)
     end
     local cat = CT.db.categories.killingBlow
     if not (cat and cat.on) then return end
-    CT.Emit(cat.area, "¡Golpe de gracia! %s", name or "", nil, cat.color, true, O().killSkull and F.SKULL or nil)
+    CT.Emit(cat.area, ns.Translate("¡Golpe de gracia! %s"), name or "", nil, cat.color, true, O().killSkull and F.SKULL or nil)
 end
 
 ---------------------------------------------------------------------------
@@ -161,7 +163,7 @@ function F.Overkill(over, area)
     over = Readable(over)
     if not (O().overkill and type(over) == "number" and over > 0) then return end
     C_Timer.After(0.12, function()
-        CT.Emit(area, "+%s de exceso", CT.Amount(over), nil, GREY, false, nil, { scale = 0.7, faded = true })
+        CT.Emit(area, ns.Translate("+%s de exceso"), CT.Amount(over), nil, GREY, false, nil, { scale = 0.7, faded = true })
     end)
 end
 

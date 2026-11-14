@@ -6,6 +6,7 @@ local ADDON_NAME, ns = ...
 
 local M = ns.Media
 local W = ns.Widgets
+local Tr, LF = ns.Translate, ns.LF
 local P = {}
 ns.Profiles = P
 
@@ -99,7 +100,7 @@ end
 
 function JSON.Decode(text)
     local pos = 1
-    local function Fail(msg) error(string.format("%s (carácter %d)", msg, pos), 0) end
+    local function Fail(msg) error(LF("%s (carácter %d)", Tr(msg), pos), 0) end
     local function Skip()
         pos = text:find("[^ \t\r\n]", pos) or (#text + 1)
     end
@@ -219,7 +220,7 @@ function P.Colored(key)
     if color then
         text = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, key)
     end
-    if info and info.level then text = text .. " |cff999999(nivel " .. info.level .. ")|r" end
+    if info and info.level then text = text .. " |cff999999" .. LF("(nivel %s)", info.level) .. "|r" end
     return text
 end
 
@@ -259,14 +260,14 @@ end
 -- Comprueba el texto sin aplicar nada. Devuelve los datos o nil y el motivo.
 function P.Parse(text)
     text = (text or ""):gsub("^%s+", ""):gsub("%s+$", "")
-    if text == "" then return nil, "No hay nada pegado." end
+    if text == "" then return nil, Tr("No hay nada pegado.") end
     local ok, data = pcall(JSON.Decode, text)
-    if not ok then return nil, "El texto no es un JSON válido: " .. tostring(data) end
+    if not ok then return nil, Tr("El texto no es un JSON válido: ") .. tostring(data) end
     if type(data) ~= "table" or data.addon ~= "BlazzitoUI" or type(data.profile) ~= "table" then
-        return nil, "Ese JSON no es una exportación de BlazzitoUI."
+        return nil, Tr("Ese JSON no es una exportación de BlazzitoUI.")
     end
     if type(data.profile.modules) ~= "table" then
-        return nil, "La exportación no trae la configuración de los módulos."
+        return nil, Tr("La exportación no trae la configuración de los módulos.")
     end
     return data
 end
@@ -291,7 +292,7 @@ StaticPopupDialogs["BLAZZITOUI_PROFILE_CONFIRM"] = {
 }
 
 local function Confirm(text, action)
-    StaticPopup_Show("BLAZZITOUI_PROFILE_CONFIRM", text, nil, action)
+    ns.ShowPopup("BLAZZITOUI_PROFILE_CONFIRM", text, nil, action)
 end
 
 ---------------------------------------------------------------------------
@@ -378,12 +379,12 @@ end
 function P.ShowExport()
     local win = TextWindow()
     local text = P.Export()
-    win.title:SetText("Exportar configuración")
-    win.hint:SetText("Todo BlazzitoUI de " .. ns.charKey .. ". Pulsa Ctrl+C para copiarlo (ya está seleccionado).")
+    win.title:SetText(Tr("Exportar configuración"))
+    win.hint:SetText(LF("Todo BlazzitoUI de %s. Pulsa Ctrl+C para copiarlo (ya está seleccionado).", ns.charKey))
     win.readOnly = text
     win.edit:SetText(text)
     win.status:SetText("")
-    win.action.text:SetText("Listo")
+    win.action.text:SetText(Tr("Listo"))
     win.onAction = function() win:Hide() end
     win:Show()
     win.edit:SetFocus()
@@ -392,22 +393,22 @@ end
 
 function P.ShowImport()
     local win = TextWindow()
-    win.title:SetText("Importar configuración")
-    win.hint:SetText("Pega aquí (Ctrl+V) un JSON exportado de BlazzitoUI y pulsa Importar. Reemplaza la configuración de " .. ns.charKey .. ".")
+    win.title:SetText(Tr("Importar configuración"))
+    win.hint:SetText(LF("Pega aquí (Ctrl+V) un JSON exportado de BlazzitoUI y pulsa Importar. Reemplaza la configuración de %s.", ns.charKey))
     win.readOnly = nil
     win.edit:SetText("")
     win.status:SetText("")
-    win.action.text:SetText("Importar")
+    win.action.text:SetText(Tr("Importar"))
     win.onAction = function()
         local data, err = P.Parse(win.edit:GetText())
         if not data then
             win.status:SetText(err)
             return
         end
-        local from = type(data.character) == "string" and (" (de " .. data.character .. ")") or ""
+        local from = type(data.character) == "string" and LF(" (de %s)", data.character) or ""
         win:Hide()
-        Confirm("BlazzitoUI: ¿reemplazar toda la configuración de " .. ns.charKey .. " por la importada" .. from
-            .. "?\nLa interfaz se recargará.", function() P.Import(data) end)
+        Confirm(LF("BlazzitoUI: ¿reemplazar toda la configuración de %s por la importada%s?\nLa interfaz se recargará.", ns.charKey, from),
+            function() P.Import(data) end)
     end
     win:Show()
     win.edit:SetFocus()
@@ -454,9 +455,9 @@ ns.Config.RegisterPage("profiles", "Perfiles", 90, function(content, width)
     local function hasOthers() return #P.Others() > 0 end
 
     local function WhoText()
-        local text = "Estás usando el perfil de " .. P.Colored(ns.charKey) .. "."
+        local text = LF("Estás usando el perfil de %s.", P.Colored(ns.charKey))
         if ns.profileCreatedFrom then
-            text = text .. " Se creó copiando el de " .. P.Colored(ns.profileCreatedFrom) .. "."
+            text = text .. " " .. LF("Se creó copiando el de %s.", P.Colored(ns.profileCreatedFrom))
         end
         return text
     end
@@ -475,8 +476,8 @@ ns.Config.RegisterPage("profiles", "Perfiles", 90, function(content, width)
               function(value) copySource = value end)),
           ButtonCell(content, col, "Copiar a este personaje", function()
               if not copySource then return end
-              Confirm("BlazzitoUI: ¿copiar toda la configuración de " .. copySource .. " a " .. ns.charKey
-                  .. "?\nLa de este personaje se pierde y la interfaz se recargará.", function() P.CopyFrom(copySource) end)
+              Confirm(LF("BlazzitoUI: ¿copiar toda la configuración de %s a %s?\nLa de este personaje se pierde y la interfaz se recargará.",
+                  copySource, ns.charKey), function() P.CopyFrom(copySource) end)
           end, true),
           hasOthers, hasOthers)
     L:Note("Solo aparecen los personajes que ya entraron al juego con BlazzitoUI.")
@@ -485,7 +486,7 @@ ns.Config.RegisterPage("profiles", "Perfiles", 90, function(content, width)
               function(value) deleteTarget = value end)),
           ButtonCell(content, col, "Borrar perfil", function()
               if not deleteTarget then return end
-              Confirm("BlazzitoUI: ¿borrar el perfil de " .. deleteTarget .. "?\n(Si ese personaje vuelve a entrar, empezará con la configuración del último que entró.)",
+              Confirm(LF("BlazzitoUI: ¿borrar el perfil de %s?\n(Si ese personaje vuelve a entrar, empezará con la configuración del último que entró.)", deleteTarget),
                   function()
                       P.Delete(deleteTarget)
                       deleteTarget = nil
@@ -503,7 +504,7 @@ ns.Config.RegisterPage("profiles", "Perfiles", 90, function(content, width)
 
     L:Card("Empezar de cero")
     L:Row(ButtonCell(content, col, "Restablecer este personaje", function()
-        Confirm("BlazzitoUI: ¿devolver toda la configuración de " .. ns.charKey .. " a los valores por defecto?\nLa interfaz se recargará.", P.Reset)
+        Confirm(LF("BlazzitoUI: ¿devolver toda la configuración de %s a los valores por defecto?\nLa interfaz se recargará.", ns.charKey), P.Reset)
     end))
     L:EndCard()
 

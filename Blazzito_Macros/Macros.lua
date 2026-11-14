@@ -36,8 +36,10 @@ Mac.ICON_DEFAULT = 134400   -- signo de interrogación: con #showtooltip el jueg
 
 local function Trim(s) return (tostring(s or ""):gsub("^%s+", ""):gsub("%s+$", "")) end
 local function Combat() return InCombatLockdown and InCombatLockdown() end
+local Tr, LF = ns.Translate, ns.LF
 
-function Mac.Say(msg) ns.Print(msg) end
+-- Al chat, traducido (con huecos: Mac.Say("%d/%d", a, b)).
+function Mac.Say(msg, ...) ns.Print(msg, ...) end
 
 ---------------------------------------------------------------------------
 -- Hechizos: nombre en tu idioma y si lo conoces
@@ -232,13 +234,15 @@ local function RenameMods(text)
 end
 
 -- Las descripciones dicen «Mayús:», «Ctrl:»...: con la tecla elegida.
+-- Se traduce antes (la clave es la descripción en español); en inglés la
+-- tecla se llama «Shift».
 function Mac.Describe(text)
     local map = ModMap()
     local marks = { shift = "\1", ctrl = "\2", alt = "\3" }
-    text = tostring(text or ""):gsub("Mayús", "\1"):gsub("Ctrl", "\2"):gsub("Alt", "\3")
+    text = Tr(tostring(text or "")):gsub("Mayús", "\1"):gsub("Shift", "\1"):gsub("Ctrl", "\2"):gsub("Alt", "\3")
     for role, mark in pairs(marks) do
         local to = map[role] or role
-        local name = to == "none" and (Mac.MOD_NAMES[role] .. " (quitado)") or Mac.MOD_NAMES[to]
+        local name = to == "none" and LF("%s (quitado)", Tr(Mac.MOD_NAMES[role])) or Tr(Mac.MOD_NAMES[to])
         text = text:gsub(mark, name)
     end
     return text
@@ -643,12 +647,12 @@ function Mac.Pickup(entry)
     end
     local state, missing = Mac.State(entry)
     if state ~= "ready" then
-        if missing then Mac.Say("esta macro se desbloquea con |cffffffff" .. missing .. "|r.") end
+        if missing then Mac.Say("esta macro se desbloquea con |cffffffff%s|r.", missing) end
         return false
     end
     local body = Mac.Body(entry)
     if #body > Mac.MAX_BODY then
-        Mac.Say(string.format("«%s» ocupa %d caracteres en tu idioma y el máximo son %d.", entry.title, #body, Mac.MAX_BODY))
+        Mac.Say("«%s» ocupa %d caracteres en tu idioma y el máximo son %d.", Tr(entry.title), #body, Mac.MAX_BODY)
         return false
     end
     local name = Mac.MacroName(entry)
@@ -660,15 +664,15 @@ function Mac.Pickup(entry)
         end
     else
         if Mac.CharacterCount() >= Mac.MaxCharacter() then
-            Mac.Say(string.format("no te quedan huecos de macros de personaje (%d/%d). Borra alguna en /macro.",
-                Mac.CharacterCount(), Mac.MaxCharacter()))
+            Mac.Say("no te quedan huecos de macros de personaje (%d/%d). Borra alguna en /macro.",
+                Mac.CharacterCount(), Mac.MaxCharacter())
             return false
         end
         local ok, new = pcall(CreateMacro, name, Mac.Icon(entry), body, true)
         index = (ok and Readable(new)) or MacroIndex(name)
     end
     if not index then
-        Mac.Say("no se pudo crear la macro «" .. name .. "».")
+        Mac.Say("no se pudo crear la macro «%s».", name)
         return false
     end
     Mac.db.written[name] = Norm(body)
@@ -782,11 +786,11 @@ ns.RegisterCommand("macros", function(arg)
             local state, missing = Mac.State(entry)
             if state ~= "missing" then
                 local body, note = Mac.Body(entry)
-                print(string.format("|cffffffff%s|r (%s%s) %d car.", Mac.MacroName(entry),
-                    state == "ready" and "disponible" or ("con " .. tostring(missing)),
-                    MacroIndex(Mac.MacroName(entry)) and ", creada" or "", #body))
+                print(LF("|cffffffff%s|r (%s%s) %d car.", Mac.MacroName(entry),
+                    state == "ready" and Tr("disponible") or LF("con %s", tostring(missing)),
+                    MacroIndex(Mac.MacroName(entry)) and Tr(", creada") or "", #body))
                 for line in (body .. "\n"):gmatch("(.-)\n") do print("    " .. line) end
-                if note then print("    |cff999999" .. note .. "|r") end
+                if note then print("    |cff999999" .. Tr(note) .. "|r") end
             end
         end
         return

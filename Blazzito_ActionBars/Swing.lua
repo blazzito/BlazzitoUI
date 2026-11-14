@@ -136,7 +136,7 @@ function S.Apply(key)
     f.label:SetFont(M.FONT, size, "OUTLINE")
     f.label:ClearAllPoints()
     f.label:SetPoint("LEFT", f.bar, "LEFT", inset, 0)
-    f.label:SetText(row.tag)
+    f.label:SetText(ns.Translate(row.tag))
     f.label:SetShown(cfg.label and true or false)
     if C_SwingTimer and C_SwingTimer.EnableRangeCheck then
         pcall(C_SwingTimer.EnableRangeCheck, row.type, cfg.rangeTint and true or false)

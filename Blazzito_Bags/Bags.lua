@@ -327,7 +327,8 @@ function B.SellJunk()
         local item = list[i]
         if not item then
             local money = GetCoinTextureString and GetCoinTextureString(total) or (total .. " c")
-            ns.Print(string.format("basura vendida: %d %s por %s.", sold, sold == 1 and "objeto" or "objetos", money))
+            if sold == 1 then ns.Print("basura vendida: %d objeto por %s.", sold, money)
+            else ns.Print("basura vendida: %d objetos por %s.", sold, money) end
             return
         end
         -- Se comprueba de nuevo: puede haberse movido entretanto.

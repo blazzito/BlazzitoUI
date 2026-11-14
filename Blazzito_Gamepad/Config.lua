@@ -8,11 +8,12 @@ local Pad, W = ns.Pad, ns.Widgets
 local function StatusText()
     local now, session = Pad.On(), Pad.Session()
     local devices = Pad.Devices()
-    local text = "Estilo de interfaz: |cffffffff" .. (now and "Mando" or "Teclado y ratón") .. "|r"
+    local Tr, LF = ns.Translate, ns.LF
+    local text = LF("Estilo de interfaz: |cffffffff%s|r", Tr(now and "Mando" or "Teclado y ratón"))
     if now ~= session then
-        text = text .. "   |cffffb84d(al entrar era " .. (session and "mando" or "teclado y ratón") .. ": escribe /reload)|r"
+        text = text .. "   " .. LF("|cffffb84d(al entrar era %s: escribe /reload)|r", Tr(session and "mando" or "teclado y ratón"))
     end
-    text = text .. "\nMando conectado: |cffffffff" .. (#devices > 0 and table.concat(devices, ", ") or "ninguno") .. "|r"
+    text = text .. "\n" .. LF("Mando conectado: |cffffffff%s|r", #devices > 0 and table.concat(devices, ", ") or Tr("ninguno"))
     return text
 end
 

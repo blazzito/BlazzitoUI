@@ -64,7 +64,7 @@ end
 local function Notify(spellID)
     local cat = CT.db.categories.cooldowns
     if not cat.on then return end
-    CT.Emit(cat.area, "Listo: %s", SpellName(spellID), nil, cat.color, false, SpellIcon(spellID))
+    CT.Emit(cat.area, ns.Translate("Listo: %s"), SpellName(spellID), nil, cat.color, false, SpellIcon(spellID))
 end
 
 -- Revisa los vigilados (10 veces por segundo).

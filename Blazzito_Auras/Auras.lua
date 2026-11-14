@@ -191,6 +191,7 @@ local function Samples(kind, cfg)
         if i > cfg.maxPerSide then break end
         local aura = {}
         for k, v in pairs(sample) do aura[k] = v end
+        aura.name = ns.Translate(sample.name)
         aura.expirationTime = now + aura.duration * (0.35 + 0.15 * i)
         aura.sample = true
         list[#list + 1] = aura
@@ -644,7 +645,7 @@ local function Report(where, err)
     while #A.errors > 5 do table.remove(A.errors) end
     if not reported[text] then
         reported[text] = true
-        ns.Print("|cffff6666auras: " .. text .. "|r (más datos con /bui auras)")
+        ns.Print("|cffff6666auras: %s|r (más datos con /bui auras)", text)
     end
 end
 A.Report = Report

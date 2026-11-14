@@ -58,7 +58,7 @@ local SCHOOLS = {
 
 local function Hex(r, g, b) return string.format("%02x%02x%02x", r * 255, g * 255, b * 255) end
 local function Cell(label, value)
-    return "|cffa0a0a8" .. label .. "|r  " .. (value ~= nil and tostring(value) or "|cff666666—|r")
+    return "|cffa0a0a8" .. ns.Translate(label) .. "|r  " .. (value ~= nil and tostring(value) or "|cff666666—|r")
 end
 
 ---------------------------------------------------------------------------
@@ -73,7 +73,7 @@ function P.Info()
     if happiness and HAPPINESS[happiness] then
         local h = HAPPINESS[happiness]
         local label = _G["PET_HAPPINESS" .. happiness]
-        info.happiness = { type(label) == "string" and label or h[1], h[2], h[3], h[4] }
+        info.happiness = { type(label) == "string" and label or ns.Translate(h[1]), h[2], h[3], h[4] }
         info.damage = damage
     end
     info.loyalty = Readable(Call(PetAPI("GetPetLoyalty")))
@@ -167,7 +167,7 @@ function P.Build(cf)
     panel.model = model
     panel.tag = M.Font(model, 10)
     panel.tag:SetPoint("TOPLEFT", panel.modelBg, "TOPLEFT", 5, -4)
-    panel.tag:SetText("MASCOTA")
+    panel.tag:SetText(ns.Translate("MASCOTA"))
 
     local x = MODEL + 20
     panel.name = M.Font(panel, 15)
@@ -265,7 +265,7 @@ function P.Update()
     local info = P.Info()
     panel.name:SetText(UnitName("pet") or "")
     local sub = {}
-    if info.level then sub[#sub + 1] = "Nivel " .. info.level end
+    if info.level then sub[#sub + 1] = ns.LF("Nivel %s", info.level) end
     if type(info.family) == "string" then sub[#sub + 1] = info.family end
     if type(info.loyalty) == "string" and info.loyalty ~= "" then sub[#sub + 1] = info.loyalty end
     panel.sub:SetText(table.concat(sub, "  ·  "))
@@ -274,7 +274,7 @@ function P.Update()
         local dot = string.format("|T%s:9:9:0:0:64:64:0:64:0:64:%d:%d:%d|t", M.ICONS.circle,
             math.floor(h[2] * 255 + 0.5), math.floor(h[3] * 255 + 0.5), math.floor(h[4] * 255 + 0.5))
         local text = dot .. "  |cff" .. Hex(h[2], h[3], h[4]) .. h[1] .. "|r"
-        if info.damage then text = text .. string.format("  |cffa0a0a8·  %d%% de daño|r", info.damage) end
+        if info.damage then text = text .. ns.LF("  |cffa0a0a8·  %d%% de daño|r", info.damage) end
         panel.happy:SetText(text)
         panel.happy:Show()
     else
@@ -296,14 +296,14 @@ function P.Update()
         panel.xp:SetMinMaxValues(0, info.xpMax)
         panel.xp:SetValue(info.xp)
         panel.xp:Show()
-        panel.xpText:SetText(string.format("Experiencia %d%%  |cff666666(%s / %s)|r", math.floor(info.xp / info.xpMax * 100),
+        panel.xpText:SetText(ns.LF("Experiencia %d%%  |cff666666(%s / %s)|r", math.floor(info.xp / info.xpMax * 100),
             M.ShortValue(info.xp), M.ShortValue(info.xpMax)))
     else
         panel.xp:Hide()
         panel.xpText:SetText("")
     end
     if info.training then
-        panel.training:SetText("Adiestramiento |cffffffff" .. info.training .. "|r libres")
+        panel.training:SetText(ns.LF("Adiestramiento |cffffffff%s|r libres", tostring(info.training)))
         panel.training:SetTextColor(0.75, 0.75, 0.8)
         panel.training:Show()
     else
@@ -321,10 +321,10 @@ function P.Update()
     end
     local res = {}
     for i, school in ipairs(SCHOOLS) do
-        res[#res + 1] = "|cff" .. school[3] .. school[2] .. "|r " .. (info.resist[i] or 0)
+        res[#res + 1] = "|cff" .. school[3] .. ns.Translate(school[2]) .. "|r " .. (info.resist[i] or 0)
     end
-    panel.resist:SetText("|cffa0a0a8Resistencias|r   " .. table.concat(res, "   "))
-    if info.diet then panel.diet:SetText("|cffa0a0a8Come|r  " .. info.diet); panel.diet:Show() else panel.diet:Hide() end
+    panel.resist:SetText("|cffa0a0a8" .. ns.Translate("Resistencias") .. "|r   " .. table.concat(res, "   "))
+    if info.diet then panel.diet:SetText("|cffa0a0a8" .. ns.Translate("Come") .. "|r  " .. info.diet); panel.diet:Show() else panel.diet:Hide() end
 end
 
 ---------------------------------------------------------------------------

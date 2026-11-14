@@ -82,7 +82,7 @@ ns.Config.RegisterPage("actionbars", "Barras de acción", 14, function(content, 
     L:Note("Barras 2 a 8: es la misma casilla que Opciones > Barras de acción de Blizzard (fuera de combate). La barra 1, mascota, posturas, bolsas, menú y experiencia no se pueden quitar en WoW: al desactivarlas se vuelven invisibles.")
     L:EndCard()
     -- El título de la tarjeta dice qué barra se edita.
-    local refreshTitle = { Refresh = function() barCard.title:SetText(W.Upper(bar().label)) end }
+    local refreshTitle = { Refresh = function() barCard.title:SetText(W.Upper(ns.Translate(bar().label))) end }
     L.widgets[#L.widgets + 1] = refreshTitle
     refreshTitle.Refresh()
 

@@ -517,9 +517,9 @@ end
 local function UpdateHealthText(frame, unit, dead, offline)
     local text = frame.HealthText
     if offline then
-        text:SetText("Desconectado")
+        text:SetText(ns.Translate("Desconectado"))
     elseif dead then
-        text:SetText(Readable(UnitIsGhost(unit)) and "Fantasma" or "Muerto")
+        text:SetText(ns.Translate(Readable(UnitIsGhost(unit)) and "Fantasma" or "Muerto"))
     else
         local mode = UF.Cfg(frame).healthText
         local percent, hasPercent = M.HealthPercent(unit)
@@ -694,7 +694,7 @@ local function ShowFakeCast(frame, cfg)
     cast.Bar:SetMinMaxValues(0, FAKE_SECONDS * 1000)
     cast.Bar:SetValue(0)
     cast.Icon:SetTexture(FAKE_ICON)
-    cast.Text:SetText("Lanzamiento de prueba")
+    cast.Text:SetText(ns.Translate("Lanzamiento de prueba"))
     M.ColorBar(cast.Bar, cfg.castColor[1], cfg.castColor[2], cfg.castColor[3])
     cast:Show()
 end

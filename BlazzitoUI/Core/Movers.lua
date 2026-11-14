@@ -8,6 +8,7 @@
 -- derecha, objetivo a la izquierda) dos marcos son simétricos con x opuestas.
 -- Solo fuera de combate: los marcos seguros no se pueden mover en combate.
 local _, ns = ...
+local Tr = ns.Translate
 
 local Movers = { entries = {}, unlocked = false }
 ns.Movers = Movers
@@ -59,7 +60,7 @@ local function UpdateOverlay(entry)
     local p = Position(entry)
     overlay.dot:ClearAllPoints()
     overlay.dot:SetPoint("CENTER", overlay, p[1], 0, 0)
-    overlay.info:SetText(string.format("%s\n|cffbbbbbb%s · %d, %d|r", entry.label, PIVOT_NAMES[p[1]] or p[1], p[3], p[4]))
+    overlay.info:SetText(string.format("%s\n|cffbbbbbb%s · %d, %d|r", Tr(entry.label), Tr(PIVOT_NAMES[p[1]] or p[1]), p[3], p[4]))
 end
 
 -- Guarda la posición actual usando el pivote indicado, ajustada a la cuadrícula.
@@ -122,9 +123,9 @@ local function CreateOverlay(entry)
     end)
     overlay:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_TOP")
-        GameTooltip:SetText(entry.label)
-        GameTooltip:AddLine("Arrastra para mover. Clic: ajustes precisos. Clic derecho: cambiar el pivote."
-            .. (entry.hooks.setSize and " Esquina inferior derecha: tamaño." or ""), 1, 1, 1, true)
+        GameTooltip:SetText(Tr(entry.label))
+        GameTooltip:AddLine(Tr("Arrastra para mover. Clic: ajustes precisos. Clic derecho: cambiar el pivote.")
+            .. (entry.hooks.setSize and (" " .. Tr("Esquina inferior derecha: tamaño.")) or ""), 1, 1, 1, true)
         GameTooltip:Show()
     end)
 
@@ -247,10 +248,10 @@ local function CreateControls()
 
     local title = W.Text(panel, 14, ns.Media.COLORS.accent)
     title:SetPoint("TOPLEFT", 14, -12)
-    title:SetText("Modo mover")
+    title:SetText(Tr("Modo mover"))
     local hint = W.Text(panel, 11, W.COLORS.muted)
     hint:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
-    hint:SetText("Clic: ajustes precisos · Clic derecho: pivote.")
+    hint:SetText(Tr("Clic: ajustes precisos · Clic derecho: pivote."))
 
     local s = Settings()
     local widgets = {
@@ -308,7 +309,7 @@ local function NumberBox(parent, label, width, get, set)
     f:SetSize(width, 40)
     local text = W.Text(f, 11, W.COLORS.muted)
     text:SetPoint("TOPLEFT")
-    text:SetText(label)
+    text:SetText(Tr(label))
     local box = CreateFrame("EditBox", nil, f)
     box:SetPoint("TOPLEFT", 0, -16)
     box:SetSize(width, 22)
@@ -352,7 +353,7 @@ local function CreateDetail()
     close:SetPoint("TOPRIGHT", -8, -8)
     local hint = W.Text(panel, 11, W.COLORS.muted)
     hint:SetPoint("TOPLEFT", panel.title, "BOTTOMLEFT", 0, -4)
-    hint:SetText("Flechas: 1 px (con Mayús: 10 px).")
+    hint:SetText(Tr("Flechas: 1 px (con Mayús: 10 px)."))
 
     -- Flechas en cruz
     local pad = CreateFrame("Frame", nil, panel)
@@ -404,7 +405,7 @@ end
 function Movers.RefreshDetail()
     if not (detail and detail:IsShown() and Movers.selected) then return end
     local entry = Movers.selected
-    detail.title:SetText(entry.label)
+    detail.title:SetText(Tr(entry.label))
     detail.x:Refresh()
     detail.y:Refresh()
     local sized = entry.hooks.getSize ~= nil

@@ -799,9 +799,9 @@ local function UpdateGlow(elapsed)
         glow:ClearAllPoints()
         glow:SetAllPoints(target)
         glow.target = target
-        glow.label:SetText(BAR_BY_KEY[key].label)
+        glow.label:SetText(ns.Translate(BAR_BY_KEY[key].label))
     end
-    glow.label:SetText(BAR_BY_KEY[key].label)
+    glow.label:SetText(ns.Translate(BAR_BY_KEY[key].label))
     glowTime = glowTime + (elapsed or 0)
     glow:SetAlpha(0.55 + 0.45 * math.abs(math.sin(glowTime * 2.5)))
     glow:Show()

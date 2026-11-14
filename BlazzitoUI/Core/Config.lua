@@ -10,6 +10,7 @@ local ADDON_NAME, ns = ...
 local M = ns.Media
 local W = ns.Widgets
 local T = W.T
+local Tr, LF = ns.Translate, ns.LF
 local C = { pages = {}, openHooks = {}, generalCards = {} }
 ns.Config = C
 
@@ -64,7 +65,7 @@ function C.RegisterPage(id, title, order, build)
 end
 
 function C.PageTitle(page)
-    return C.Meta(page.id).title or page.title
+    return Tr(C.Meta(page.id).title or page.title)
 end
 
 -- fn(activa) se llama al abrir y cerrar la ventana, y al encender o apagar la
@@ -147,7 +148,7 @@ local function ShowPageHead(window, page)
     head.module = module
     head.toggle:SetShown(module ~= nil)
     if module then head.toggle:Refresh() end
-    local group = C.GROUP_NAMES[meta.group]
+    local group = C.GROUP_NAMES[meta.group] and Tr(C.GROUP_NAMES[meta.group])
     window.crumb:SetText((group and (group .. "  /  ") or "") .. "|cffc9cdd3" .. C.PageTitle(page) .. "|r")
 end
 
@@ -185,7 +186,7 @@ end
 local function MatchesSearch(page, query)
     if query == "" then return true end
     local meta = C.Meta(page.id)
-    local hay = string.lower(C.PageTitle(page) .. " " .. (meta.desc or "") .. " " .. (C.GROUP_NAMES[meta.group] or ""))
+    local hay = string.lower(C.PageTitle(page) .. " " .. Tr(meta.desc or "") .. " " .. Tr(C.GROUP_NAMES[meta.group] or ""))
     return hay:find(query, 1, true) ~= nil
 end
 
@@ -233,8 +234,8 @@ function C.RefreshFooter()
     foot.name:SetTextColor(a[1], a[2], a[3])
     local className = UnitClass("player") or ""
     local level = info.level or UnitLevel("player") or "?"
-    local profile = ns.profileCreatedFrom and ("copiado de " .. (ns.profileCreatedFrom:match("(%S+)$") or ns.profileCreatedFrom))
-        or "Perfil propio"
+    local profile = ns.profileCreatedFrom and LF("copiado de %s", ns.profileCreatedFrom:match("(%S+)$") or ns.profileCreatedFrom)
+        or Tr("Perfil propio")
     foot.sub:SetText(className .. " " .. tostring(level) .. " · " .. profile)
 end
 
@@ -261,7 +262,7 @@ local function BuildSidebar(window, sidebar)
     foot:SetScript("OnEnter", function()
         footHover:Show()
         GameTooltip:SetOwner(foot, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Perfiles: copiar, exportar e importar")
+        GameTooltip:SetText(Tr("Perfiles: copiar, exportar e importar"))
         GameTooltip:Show()
     end)
     foot:SetScript("OnLeave", function()
@@ -294,7 +295,7 @@ local function BuildSidebar(window, sidebar)
     window.noResults = W.Text(list, 12, T.dim, true)
     window.noResults:SetPoint("TOPLEFT", 10, -8)
     window.noResults:SetPoint("RIGHT", -10, 0)
-    window.noResults:SetText("Nada coincide. Prueba con otra palabra.")
+    window.noResults:SetText(Tr("Nada coincide. Prueba con otra palabra."))
     window.noResults:Hide()
 
     window.nav = {}
@@ -339,7 +340,7 @@ local function BuildSearch(window, header)
     glass:SetVertexColor(unpack(T.min))
     local hint = W.Text(box, 13, T.min)
     hint:SetPoint("LEFT", 26, 0)
-    hint:SetText("Buscar sección…")
+    hint:SetText(Tr("Buscar sección…"))
     box:SetScript("OnTextChanged", function(self)
         hint:SetShown((self:GetText() or "") == "")
         LayoutNav(window)
@@ -409,7 +410,7 @@ local function BuildHeader(window)
     local reload = W.IconButton(header, icons.reload, function() return "Recargar la interfaz" end, function() ReloadUI() end)
     reload:SetPoint("RIGHT", sep, "LEFT", -12, 0)
     local reset = W.IconButton(header, icons.reset, function() return "Devolver los marcos a su posición" end, function()
-        StaticPopup_Show("BLAZZITOUI_RESET_POSITIONS")
+        ns.ShowPopup("BLAZZITOUI_RESET_POSITIONS")
     end)
     reset:SetPoint("RIGHT", reload, "LEFT", -2, 0)
 
@@ -418,7 +419,7 @@ local function BuildHeader(window)
     preview:SetPoint("RIGHT", reset, "LEFT", -10, 0)
     local label = W.Text(preview, 12, T.muted, false, "medium")
     label:SetPoint("LEFT", 0, 0)
-    label:SetText("Vista previa")
+    label:SetText(Tr("Vista previa"))
     local switch = W.Switch(preview)
     switch:SetPoint("RIGHT")
     function preview:Refresh() switch:SetOn(C.PreviewEnabled()) end
@@ -430,7 +431,7 @@ local function BuildHeader(window)
     preview:SetScript("OnEnter", function()
         label:SetTextColor(unpack(T.text))
         GameTooltip:SetOwner(preview, "ANCHOR_BOTTOM")
-        GameTooltip:SetText("Muestra los marcos ocultos con tus datos mientras ajustas")
+        GameTooltip:SetText(Tr("Muestra los marcos ocultos con tus datos mientras ajustas"))
         GameTooltip:Show()
     end)
     preview:SetScript("OnLeave", function()
@@ -470,14 +471,14 @@ local function BuildPageHead(window)
     label:SetPoint("RIGHT", switch, "LEFT", -10, 0)
     local warn = W.Text(toggle, 11, T.warn)
     warn:SetPoint("RIGHT", label, "LEFT", -10, 0)
-    warn:SetText("al recargar")
+    warn:SetText(Tr("al recargar"))
     function toggle:Refresh()
         local module = head.module
         local on = module and module.db and module.db.enabled and true or false
         switch:SetOn(on)
-        label:SetText(on and "Módulo encendido" or "Módulo apagado")
+        label:SetText(Tr(on and "Módulo encendido" or "Módulo apagado"))
         local resting = on and module.padResting == true
-        warn:SetText(resting and (module.padLite and "en parte, por el mando" or "apartado por el mando") or "al recargar")
+        warn:SetText(Tr(resting and (module.padLite and "en parte, por el mando" or "apartado por el mando") or "al recargar"))
         warn:SetShown(module ~= nil and (resting or on ~= (module.active and true or false)))
     end
     toggle:SetScript("OnClick", function(self)
@@ -489,7 +490,7 @@ local function BuildPageHead(window)
     end)
     toggle:SetScript("OnEnter", function()
         GameTooltip:SetOwner(toggle, "ANCHOR_BOTTOM")
-        GameTooltip:SetText("Encender o apagar este módulo (se aplica al recargar)")
+        GameTooltip:SetText(Tr("Encender o apagar este módulo (se aplica al recargar)"))
         GameTooltip:Show()
     end)
     toggle:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -601,7 +602,7 @@ local function StatusSegment(parent, label, button, onClick)
     seg:SetHeight(44)
     seg.label = W.Text(seg, 12, T.dim)
     seg.label:SetPoint("LEFT", 12, 0)
-    seg.label:SetText(label)
+    seg.label:SetText(Tr(label))
     seg.button = W.Button(seg, nil, button, onClick)
     seg.button:SetPoint("RIGHT", -10, 0)
     seg.value = W.Text(seg, 13, T.text, false, "medium")
@@ -636,7 +637,7 @@ local function ModuleRow(parent, module, info, onChange)
     local name = W.Text(row, 14, T.text, false, "medium")
     name:SetPoint("LEFT", box, "RIGHT", 12, 0)
     name:SetWidth(186)
-    name:SetText(module.title)
+    name:SetText(Tr(module.title))
 
     -- A la derecha: chevron a los ajustes, interruptor y aviso «al recargar».
     local go = CreateFrame("Button", nil, row)
@@ -652,7 +653,7 @@ local function ModuleRow(parent, module, info, onChange)
     go:SetScript("OnEnter", function()
         chevron:SetVertexColor(unpack(T.text))
         GameTooltip:SetOwner(go, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Ajustes de " .. module.title)
+        GameTooltip:SetText(LF("Ajustes de %s", Tr(module.title)))
         GameTooltip:Show()
     end)
     go:SetScript("OnLeave", function()
@@ -666,12 +667,12 @@ local function ModuleRow(parent, module, info, onChange)
     hit:SetAllPoints(switch)
     local warn = W.Text(row, 11, T.warn)
     warn:SetPoint("RIGHT", switch, "LEFT", -10, 0)
-    warn:SetText("al recargar")
+    warn:SetText(Tr("al recargar"))
 
     local desc = W.Text(row, 12, T.dim)
     desc:SetPoint("LEFT", name, "RIGHT", 12, 0)
     desc:SetPoint("RIGHT", warn, "LEFT", -10, 0)
-    desc:SetText(info.desc or "")
+    desc:SetText(Tr(info.desc or ""))
 
     row:EnableMouse(true)
     row:SetScript("OnEnter", function() hover:Show() end)
@@ -692,7 +693,7 @@ local function ModuleRow(parent, module, info, onChange)
         -- sin aviso, la descripción usa también ese hueco.
         local resting = on and module.padResting == true
         local pending = resting or on ~= (module.active and true or false)
-        warn:SetText(resting and (module.padLite and "en parte, por el mando" or "apartado por el mando") or "al recargar")
+        warn:SetText(Tr(resting and (module.padLite and "en parte, por el mando" or "apartado por el mando") or "al recargar"))
         warn:SetShown(pending)
         desc:ClearAllPoints()
         desc:SetPoint("LEFT", name, "RIGHT", 12, 0)
@@ -733,12 +734,12 @@ C.RegisterPage("general", "Inicio", 0, function(content, width)
             d:SetPoint("BOTTOMLEFT", 1 + i * w, 1)
         end
         local current = G and G.Current and G.Current()
-        segs[1].value:SetText(current and G.byKey and G.byKey[current] and G.byKey[current].name
-            or (G and "Personalizados" or "Módulo apagado"))
-        segs[2].value:SetText("Propio")
-        segs[3].value:SetText(ns.Movers.unlocked and "Desbloqueados" or "Bloqueados")
+        segs[1].value:SetText(Tr(current and G.byKey and G.byKey[current] and G.byKey[current].name
+            or (G and "Personalizados" or "Módulo apagado")))
+        segs[2].value:SetText(Tr("Propio"))
+        segs[3].value:SetText(Tr(ns.Movers.unlocked and "Desbloqueados" or "Bloqueados"))
         local b = segs[3].button
-        b.text:SetText(ns.Movers.unlocked and "Bloquear" or "Mover")
+        b.text:SetText(Tr(ns.Movers.unlocked and "Bloquear" or "Mover"))
         b:SetWidth(math.ceil(b.text:GetStringWidth() + 22))
     end
     L:Full(strip)
@@ -752,7 +753,7 @@ C.RegisterPage("general", "Inicio", 0, function(content, width)
     head:SetHeight(26)
     local headText = W.Text(head, 17, T.text, false, "head")
     headText:SetPoint("LEFT")
-    headText:SetText(W.Upper("Módulos"))
+    headText:SetText(W.Upper(Tr("Módulos")))
     local count = W.Text(head, 12, T.dim)
     count:SetPoint("LEFT", headText, "RIGHT", 10, 0)
     local function RefreshAll()
@@ -771,7 +772,7 @@ C.RegisterPage("general", "Inicio", 0, function(content, width)
             total = total + 1
             if row.module.db and row.module.db.enabled then on = on + 1 end
         end
-        count:SetText(on .. " de " .. total .. " encendidos")
+        count:SetText(LF("%d de %d encendidos", on, total))
         seg:Refresh()
     end
     L:Full(head)
@@ -833,6 +834,20 @@ C.RegisterPage("general", "Inicio", 0, function(content, width)
 
     for _, build in ipairs(C.generalCards) do build(L, content) end
 
+    -- Idioma (de toda la cuenta; cambiarlo pide recargar).
+    local LANGUAGES = {
+        { value = "auto", text = "Automático (el del juego)" },
+        { value = "es", text = "Español" },
+        { value = "en", text = "English" },
+    }
+    L:Card("Idioma")
+    L:Row(W.Dropdown(content, L.innerColumn, "Idioma de BlazzitoUI", LANGUAGES, function() return ns.LocaleChoice() end,
+        function(value)
+            if ns.SetLocaleChoice(value) then ns.AskReload() end
+        end))
+    L:Note("Automático usa el idioma de tu WoW: español si el juego está en español, inglés si no. Algunos módulos aún están solo en español: se irán traduciendo.")
+    L:EndCard()
+
     L:Card("Atajos")
     L:Note("/bui abre esta ventana · /bui mover desbloquea los marcos para moverlos · /bui reset los devuelve a su sitio · /blazz abre los ajustes del juego de tu main (en Perfiles).")
     L:EndCard()
@@ -852,11 +867,11 @@ function ns.BuildOptions()
     title:SetText("|cff4fc3f7BlazzitoUI|r")
     local desc = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
     desc:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
-    desc:SetText("Toda la configuración está en su propia ventana (también con /bui).")
+    desc:SetText(Tr("Toda la configuración está en su propia ventana (también con /bui)."))
     local open = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
     open:SetSize(220, 26)
     open:SetPoint("TOPLEFT", desc, "BOTTOMLEFT", 0, -14)
-    open:SetText("Abrir configuración")
+    open:SetText(Tr("Abrir configuración"))
     open:SetScript("OnClick", function() C.Toggle("general") end)
 
     if Settings and Settings.RegisterCanvasLayoutCategory then

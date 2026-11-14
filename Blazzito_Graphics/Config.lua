@@ -4,6 +4,7 @@ if not (ns and ns.Graphics) then return end
 
 local G, W, M = ns.Graphics, ns.Widgets, ns.Media
 local ACCENT = W.COLORS.accent
+local Tr, LF = ns.Translate, ns.LF
 
 -- Una fila de preset: botón a la izquierda y su descripción a la derecha.
 -- El preset que coincide con tus ajustes actuales queda marcado.
@@ -25,7 +26,7 @@ local function PresetRow(parent, width, preset)
     desc:SetPoint("LEFT", button, "RIGHT", 14, 0)
     desc:SetPoint("RIGHT")
     desc:SetJustifyH("LEFT")
-    desc:SetText(preset.desc)
+    desc:SetText(Tr(preset.desc))
     f.button = button
     function f:Refresh()
         local on = G.Current() == preset.key
@@ -46,8 +47,8 @@ end
 
 local function When(slot)
     local backup = G.db.backups[slot]
-    if not backup then return "sin guardar" end
-    return date and date("%d/%m a las %H:%M", backup.time) or "guardada"
+    if not backup then return Tr("sin guardar") end
+    return date and date(Tr("%d/%m a las %H:%M"), backup.time) or Tr("guardada")
 end
 
 ns.Config.RegisterPage("graphics", "Gráficos", 22, function(content, width)
@@ -103,7 +104,7 @@ ns.Config.RegisterPage("graphics", "Gráficos", 22, function(content, width)
     local refresh = L.Refresh
     function L:Refresh()
         limiter:SetText(G.Limiter())
-        info:SetText("Copia de antes: |cffffffff" .. When("original") .. "|r     Mi copia: |cffffffff" .. When("mine") .. "|r")
+        info:SetText(LF("Copia de antes: |cffffffff%s|r     Mi copia: |cffffffff%s|r", When("original"), When("mine")))
         refresh(self)
     end
     G.OnChanged = function()

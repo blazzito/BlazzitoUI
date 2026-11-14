@@ -107,7 +107,7 @@ local function RowTooltip(row)
     if not (item and GameTooltip) then return end
     GameTooltip:SetOwner(row, "ANCHOR_RIGHT")
     if GameTooltip.SetBagItem then GameTooltip:SetBagItem(item.bag, item.slot) end
-    GameTooltip:AddLine("Pulsa la X para destruirlo y hacer sitio.", T.dim[1], T.dim[2], T.dim[3], true)
+    GameTooltip:AddLine(ns.Translate("Pulsa la X para destruirlo y hacer sitio."), T.dim[1], T.dim[2], T.dim[3], true)
     GameTooltip:Show()
 end
 
@@ -177,7 +177,7 @@ local function Build()
     W.Panel(panel, T.radius, T.bg, T.line)
     panel.title = W.Text(panel, 13, T.text, false, "head")
     panel.title:SetPoint("TOPLEFT", PAD + 2, -9)
-    panel.title:SetText(W.Upper("Basura"))
+    panel.title:SetText(W.Upper(ns.Translate("Basura")))
     panel.total = W.Text(panel, 11, T.muted, false, "medium")
     panel.total:SetPoint("TOPRIGHT", -PAD - 2, -10)
     panel.accent = W.Line(panel, W.COLORS.accent)
@@ -234,7 +234,7 @@ function B.UpdateLootJunk()
     for i = shown + 1, #rows do rows[i].item = nil; rows[i]:Hide() end
     panel.total:SetText(Money(total))
     local extra = #list - shown
-    panel.more:SetText(extra > 0 and string.format("y %d más", extra) or "")
+    panel.more:SetText(extra > 0 and ns.LF("y %d más", extra) or "")
     local width = PAD + ICON + 8 + math.ceil(widest) + 8 + 22 + PAD + 2
     local header = math.ceil(panel.title:GetStringWidth() + panel.total:GetStringWidth() + 3 * PAD + 12)
     width = math.min(MAX_W, math.max(MIN_W, width, header))

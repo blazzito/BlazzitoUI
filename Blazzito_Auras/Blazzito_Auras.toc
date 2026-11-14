@@ -8,6 +8,7 @@
 ## Dependencies: BlazzitoUI
 ## IconTexture: Interface/AddOns/BlazzitoUI/icon
 
+Locale_en.lua
 Auras.lua
 BuffFrame.lua
 Config.lua

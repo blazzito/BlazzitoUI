@@ -8,6 +8,7 @@ local _, ns = ...
 
 local UF = ns.UnitFrames
 local W = ns.Widgets
+local Tr, LF = ns.Translate, ns.LF
 
 UF.editing = "player"
 
@@ -131,8 +132,8 @@ local function NewSession(card, keys, styleKeys, layout, ctx)
         return ctx.label and ctx.label(pair) or UF.INFO[pair].label
     end
     copy = W.IconButton(actions, ns.Media.ICONS.copy, function()
-        if session.copied then return "Copiado a " .. PairLabel() end
-        return "Copiar a " .. PairLabel()
+        if session.copied then return LF("Copiado a %s", Tr(PairLabel())) end
+        return LF("Copiar a %s", Tr(PairLabel()))
     end, function()
         local units, editing = ctx.units(), ctx.editing()
         local source = units[editing]
@@ -160,7 +161,7 @@ local function NewSession(card, keys, styleKeys, layout, ctx)
         Restart()
     end)
     revert = W.IconButton(actions, ns.Media.ICONS.revert, function()
-        return string.format("Revertir (%d s)", math.ceil(session.remaining or 0))
+        return LF("Revertir (%d s)", math.ceil(session.remaining or 0))
     end, function()
         local snap = session.snapshot
         if not snap then return end
@@ -258,7 +259,7 @@ local function BuildLivePreview(host)
     title:SetPoint("TOPLEFT", 10, -9)
     local live = W.Text(panel, 11, T.min)
     live:SetPoint("TOPRIGHT", -10, -10)
-    live:SetText("en vivo")
+    live:SetText(Tr("en vivo"))
     local line = W.Line(panel, T.line)
     line:SetPoint("TOPLEFT", 1, -28)
     line:SetPoint("TOPRIGHT", -1, -28)
@@ -273,7 +274,7 @@ local function BuildLivePreview(host)
     note:SetPoint("TOPLEFT", stage, "BOTTOMLEFT", 9, -8)
     note:SetPoint("RIGHT", -10, 0)
     note:SetSpacing(2)
-    note:SetText("Con tus datos. Para ver los marcos en su sitio, usa «Vista previa» en la cabecera.")
+    note:SetText(Tr("Con tus datos. Para ver los marcos en su sitio, usa «Vista previa» en la cabecera."))
 
     local frame = CreateFrame("Frame", nil, stage)
     frame.previewUnit = "player"
@@ -486,10 +487,7 @@ ns.Config.RegisterPage("unitframes", "Marcos de unidad", 10, function(content, w
     L:Row(W.Toggle(content, col, "Huecos vacíos al elegir enemigo", get("comboAlways"), s.Set("comboAlways")),
           W.Toggle(content, col, "Animación al ganar un punto", get("comboPop"), s.Set("comboPop")),
           comboOn, function() return comboOn() and comboStyle() ~= "number" end)
-    L:Note("El diseño se elige por la clase del personaje: los druidas usan el suyo y el resto (pícaros) el otro. "
-        .. "\"Huecos vacíos al elegir enemigo\": los 5 huecos apagados se ven en cuanto seleccionas un enemigo, aunque aún no tengas puntos; si no, aparecen con el primer punto. "
-        .. "Con la configuración abierta los puntos suben solos de 1 a 5 para ver cómo quedan. "
-        .. "\"Rellenar de derecha a izquierda\" (en Forma y estilo) también invierte el orden de los puntos.")
+    L:Note("El diseño se elige por la clase del personaje: los druidas usan el suyo y el resto (pícaros) el otro. «Huecos vacíos al elegir enemigo»: los 5 huecos apagados se ven en cuanto seleccionas un enemigo, aunque aún no tengas puntos; si no, aparecen con el primer punto. Con la configuración abierta los puntos suben solos de 1 a 5 para ver cómo quedan. «Rellenar de derecha a izquierda» (en Forma y estilo) también invierte el orden de los puntos.")
     L:EndCard()
 
     s = NewSession(L:Card("Extras"), { "fade" }, nil, L)

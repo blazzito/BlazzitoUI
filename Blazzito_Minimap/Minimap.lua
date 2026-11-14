@@ -134,7 +134,7 @@ local function Build()
     -- Calendario y botones de addons.
     info.calendar = IconButton(info, MEDIA .. "icon_calendar", function()
         local pending = C_Calendar and C_Calendar.GetNumPendingInvites and Readable(C_Calendar.GetNumPendingInvites()) or 0
-        return pending and pending > 0 and ("Calendario (" .. pending .. " invitaciones)") or "Calendario"
+        return pending and pending > 0 and ns.LF("Calendario (%d invitaciones)", pending) or "Calendario"
     end, function()
         if ToggleCalendar then ToggleCalendar()
         elseif GameTimeFrame and GameTimeFrame.Click then GameTimeFrame:Click() end
@@ -147,7 +147,7 @@ local function Build()
     info.calendar.badge:Hide()
 
     info.addons = IconButton(info, MEDIA .. "icon_addons", function()
-        return "Botones de addons (" .. #MM.collected .. ")"
+        return ns.LF("Botones de addons (%d)", #MM.collected)
     end, function() MM.ToggleFlyout() end)
     info.addons.count = info.addons:CreateFontString(nil, "OVERLAY")
     info.addons.count:SetFont(M.FONT, 9, "OUTLINE")
@@ -343,7 +343,7 @@ function MM.Apply()
     for letter, fs in pairs(info.compass) do
         local spot = spots[letter]
         fs:SetFont(M.FONT, cfg.compassSize or 13, "THICKOUTLINE")
-        fs:SetText(letter)
+        fs:SetText(ns.Translate(letter))
         fs:ClearAllPoints()
         fs:SetPoint(spot[1], info, spot[1], spot[2], spot[3])
         if letter == "N" then fs:SetTextColor(a[1], a[2], a[3]) else fs:SetTextColor(1, 1, 1) end

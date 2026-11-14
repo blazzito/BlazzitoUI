@@ -7,8 +7,20 @@ _G.BlazzitoUI = ns
 ns.modules = {}
 ns.moduleOrder = {}
 
-function ns.Print(msg)
+-- Mensaje al chat. Con huecos se traduce: ns.Print("%d objetos", n).
+function ns.Print(msg, ...)
+    if select("#", ...) > 0 then msg = ns.LF(msg, ...) else msg = ns.Translate(msg) end
     print("|cff4fc3f7BlazzitoUI|r: " .. tostring(msg))
+end
+
+-- Ventanas emergentes: se definen en español al cargar y se traducen al mostrarlas.
+function ns.ShowPopup(name, ...)
+    local dialog = StaticPopupDialogs[name]
+    if dialog then
+        dialog.source = dialog.source or { text = dialog.text, button1 = dialog.button1, button2 = dialog.button2 }
+        for key, value in pairs(dialog.source) do dialog[key] = ns.Translate(value) end
+    end
+    return StaticPopup_Show(name, ...)
 end
 
 local function MergeDefaults(target, defaults)
@@ -126,7 +138,7 @@ function ns.AskReload()
         ns.Print("hay que recargar para aplicar este cambio: escribe |cffffffff/reload|r.")
         return
     end
-    StaticPopup_Show("BLAZZITOUI_RELOAD")
+    ns.ShowPopup("BLAZZITOUI_RELOAD")
 end
 
 ---------------------------------------------------------------------------
@@ -190,6 +202,7 @@ end
 ns.On("ADDON_LOADED", function(_, name)
     if name ~= ADDON_NAME then return end
     ns.db = OpenDatabase()
+    ns.ApplyLocale()
     ns.db.movers = ns.db.movers or {}
     MergeDefaults(ns.db.movers, ns.Movers.DEFAULTS)
     ns.db.modules = ns.db.modules or {}
@@ -246,11 +259,11 @@ SlashCmdList["BLAZZITOUI"] = function(msg)
         ns.Movers.ResetAll()
     elseif cmd == "help" or cmd == "?" then
         ns.Print("comandos:")
-        print("  /bui          abre las opciones")
-        print("  /bui mover    desbloquea o bloquea los marcos para moverlos")
-        print("  /bui reset    devuelve los marcos a su posición inicial")
+        print("  /bui          " .. ns.L["abre las opciones"])
+        print("  /bui mover    " .. ns.L["desbloquea o bloquea los marcos para moverlos"])
+        print("  /bui reset    " .. ns.L["devuelve los marcos a su posición inicial"])
         for name, command in pairs(ns.commands) do
-            if command.help then print("  /bui " .. name .. "    " .. command.help) end
+            if command.help then print("  /bui " .. name .. "    " .. ns.Translate(command.help)) end
         end
     else
         ns.OpenOptions()

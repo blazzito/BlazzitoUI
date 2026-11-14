@@ -10,6 +10,7 @@ if not Mac then return end
 local M, W = ns.Media, ns.Widgets
 local T = W.T
 local Readable = M.Readable
+local Tr, LF = ns.Translate, ns.LF
 
 local WIDTH, MIN_HEIGHT = 380, 480
 local ICON = 32
@@ -40,7 +41,7 @@ local function Tooltip(row)
     local entry = row.entry
     if not entry then return end
     GameTooltip:SetOwner(row, "ANCHOR_RIGHT")
-    GameTooltip:SetText(entry.title, 1, 1, 1)
+    GameTooltip:SetText(Tr(entry.title), 1, 1, 1)
     GameTooltip:AddLine(Mac.Describe(entry.desc), T.muted[1], T.muted[2], T.muted[3], true)
     local body, note = Mac.Body(entry)
     GameTooltip:AddLine(" ")
@@ -50,11 +51,11 @@ local function Tooltip(row)
     end
     if note then
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(note, T.warn[1], T.warn[2], T.warn[3], true)
+        GameTooltip:AddLine(Tr(note), T.warn[1], T.warn[2], T.warn[3], true)
     end
     GameTooltip:AddLine(" ")
     if row.state == "ready" then
-        GameTooltip:AddLine("Arrástrala (o haz clic) y suéltala en una barra.", T.dim[1], T.dim[2], T.dim[3], true)
+        GameTooltip:AddLine(Tr("Arrástrala (o haz clic) y suéltala en una barra."), T.dim[1], T.dim[2], T.dim[3], true)
     end
     GameTooltip:Show()
 end
@@ -123,23 +124,23 @@ local function Paint(row, entry, onBars)
     local created = Mac.MacroIndex(Mac.MacroName(entry)) ~= nil
     row.created:SetColorTexture(a[1], a[2], a[3], 1)
     row.created:SetShown(created)
-    row.title:SetText(entry.title)
+    row.title:SetText(Tr(entry.title))
     row.title:SetTextColor(unpack(ready and T.text or T.min))
     row.desc:SetText(Mac.Describe(entry.desc))
     local status, color
     if not ready then
-        status, color = "Se desbloquea con " .. tostring(missing), T.min
+        status, color = LF("Se desbloquea con %s", tostring(missing)), T.min
     elseif onBars[Mac.MacroName(entry)] then
-        status, color = "En tus barras", a
-        if note then status, color = status .. " · " .. note, T.warn end
+        status, color = Tr("En tus barras"), a
+        if note then status, color = status .. " · " .. Tr(note), T.warn end
     elseif note then
-        status, color = note, T.warn
+        status, color = Tr(note), T.warn
     elseif created then
-        status, color = "Creada · arrástrala a una barra", T.dim
+        status, color = Tr("Creada · arrástrala a una barra"), T.dim
     else
-        status, color = "Arrastra a tus barras", T.dim
+        status, color = Tr("Arrastra a tus barras"), T.dim
     end
-    if entry.dynamic and ready then status = "Se actualiza sola · " .. status end
+    if entry.dynamic and ready then status = Tr("Se actualiza sola") .. " · " .. status end
     row.status:SetText(status)
     row.status:SetTextColor(color[1], color[2], color[3], 1)
     local h = 6 + 1 + row.title:GetStringHeight() + 3 + row.desc:GetStringHeight() + 4 + row.status:GetStringHeight() + 10
@@ -176,7 +177,7 @@ local function Build()
 
     win.title = W.Text(win, 15, T.text, false, "head")
     win.title:SetPoint("TOPLEFT", 18, -16)
-    win.title:SetText(W.Upper("Macros de clase"))
+    win.title:SetText(W.Upper(Tr("Macros de clase")))
     win.sub = W.Text(win, 12, T.muted, false, "medium")
     win.sub:SetPoint("TOPLEFT", win.title, "BOTTOMLEFT", 0, -4)
     win.close = W.IconButton(win, M.ICONS.close, function() return "Cerrar" end, function() Mac.Close() end)
@@ -239,7 +240,7 @@ function Mac.Repaint()
             h:ClearAllPoints()
             h:SetPoint("TOPLEFT", win.content, "TOPLEFT", 0, -y)
             h:SetWidth(width)
-            h.text:SetText(W.Upper(group))
+            h.text:SetText(W.Upper(Tr(group)))
             h:Show()
             y = y + 34
             for _, entry in ipairs(list) do
@@ -259,9 +260,9 @@ function Mac.Repaint()
     for i = hi + 1, #headers do headers[i]:Hide() end
     win.content:SetHeight(math.max(10, y))
     local a = Accent()
-    win.sub:SetText(string.format("%s · %d disponibles", CLASS_NAMES[class or ""] or (class or "?"), ready))
+    win.sub:SetText(LF("%s · %d disponibles", Tr(CLASS_NAMES[class or ""] or (class or "?")), ready))
     win.sub:SetTextColor(a[1], a[2], a[3], 1)
-    win.foot:SetText(string.format("Macros de personaje: %d/%d · se crean al arrastrarlas",
+    win.foot:SetText(LF("Macros de personaje: %d/%d · se crean al arrastrarlas",
         Mac.CharacterCount(), Mac.MaxCharacter()))
     Mac.PaintTab()
 end
@@ -344,8 +345,8 @@ local function BuildTab()
     tab:SetScript("OnClick", function() Mac.Toggle() end)
     tab:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Macros de clase")
-        GameTooltip:AddLine("Las macros esenciales de tu clase, listas para arrastrar a tus barras.", 1, 1, 1, true)
+        GameTooltip:SetText(Tr("Macros de clase"))
+        GameTooltip:AddLine(Tr("Las macros esenciales de tu clase, listas para arrastrar a tus barras."), 1, 1, 1, true)
         GameTooltip:Show()
     end)
     tab:SetScript("OnLeave", function() GameTooltip:Hide() end)

@@ -66,10 +66,10 @@ ns.Config.RegisterPage("combattext", "Texto de combate", 19, function(content, w
         if not okFont or loaded == false then return nil end
         sample:SetPoint("LEFT", 14, 4)
         -- Sin «¡»: algunas fuentes compartidas no tienen ese signo.
-        sample:SetText("|cffffd2301.234|r  |cffff8020Crítico|r")
+        sample:SetText("|cffffd2301.234|r  |cffff8020" .. ns.Translate("Crítico") .. "|r")
         local name = W.Text(tile, 11, W.COLORS.muted)
         name:SetPoint("BOTTOMLEFT", 14, 6)
-        name:SetText(font.text)
+        name:SetText(ns.Translate(font.text))
         tile:SetScript("OnClick", function()
             db.font = font.key
             for _, t in ipairs(tiles) do t:Refresh() end
@@ -179,7 +179,7 @@ ns.Config.RegisterPage("combattext", "Texto de combate", 19, function(content, w
     end
 
     for _, group in ipairs(GROUPS) do
-        L:Card("Mostrar: " .. group[1])
+        L:Card(ns.LF("Mostrar: %s", ns.Translate(group[1])))
         for _, item in ipairs(group[2]) do
             local cat = db.categories[item[1]]
             L:Row(W.Toggle(content, col, item[2], function() return cat.on end, function(v) cat.on = v; L:RefreshStates() end),

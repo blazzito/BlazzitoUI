@@ -486,7 +486,7 @@ function CT.EmitSample(i)
     local s = SAMPLES[i]
     local cat = CT.db.categories[s[4]]
     local value = s[3] and CT.Amount(s[3]) or nil
-    CT.Emit(cat.area, s[2], value, nil, cat.color, s[5], s[6])
+    CT.Emit(cat.area, ns.Translate(s[2]), value, nil, cat.color, s[5], s[6])
 end
 
 function CT.SetPreview(reason, on)

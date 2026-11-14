@@ -153,7 +153,7 @@ end
 function CH.RunCommand(command)
     local key = CH.FindCommand(command)
     if not key then
-        ns.Print("ese comando ya no existe: " .. command)
+        ns.Print("ese comando ya no existe: %s", command)
         return false
     end
     local blizzard = key == SECURE
@@ -164,7 +164,7 @@ function CH.RunCommand(command)
     end
     local editBox = DEFAULT_CHAT_FRAME and DEFAULT_CHAT_FRAME.editBox
     local ok, err = pcall(SlashCmdList[key], "", editBox)
-    if not ok then ns.Print("el comando " .. command .. " falló: " .. tostring(err)) end
+    if not ok then ns.Print("el comando %s falló: %s", command, tostring(err)) end
     return ok
 end
 
@@ -361,15 +361,15 @@ local function Popup()
     popup.hint = M.Font(popup, 11)
     popup.hint:SetPoint("BOTTOMLEFT", 14, 10)
     popup.hint:SetTextColor(0.6, 0.6, 0.65)
-    popup.hint:SetText("Ctrl+C para copiar · Esc para cerrar")
+    popup.hint:SetText(ns.Translate("Ctrl+C para copiar · Esc para cerrar"))
     return popup
 end
 
 function CH.ShowCopy(title, value, warning)
     local p = Popup()
     p.value = value
-    p.title:SetText(title)
-    p.warning:SetText(warning or "")
+    p.title:SetText(ns.Translate(title))
+    p.warning:SetText(ns.Translate(warning or ""))
     p.warning:SetShown(warning ~= nil)
     p:SetHeight(warning and 118 or 86)
     p.box:SetText(value)
@@ -472,13 +472,13 @@ local function HistoryWindow()
 
     local title = M.Font(history, 14)
     title:SetPoint("TOPLEFT", 16, -14)
-    title:SetText("Historial del chat")
+    title:SetText(ns.Translate("Historial del chat"))
     local a = M.COLORS.accent
     title:SetTextColor(a[1], a[2], a[3])
     local hint = M.Font(history, 11)
     hint:SetPoint("LEFT", title, "RIGHT", 12, 0)
     hint:SetTextColor(0.6, 0.6, 0.65)
-    hint:SetText("Selecciona con el ratón y pulsa Ctrl+C (Ctrl+A para todo)")
+    hint:SetText(ns.Translate("Selecciona con el ratón y pulsa Ctrl+C (Ctrl+A para todo)"))
     local close = W.IconButton(history, M.ICONS.close, function() return "Cerrar" end, function() history:Hide() end)
     close:SetPoint("TOPRIGHT", -10, -8)
 
@@ -512,14 +512,14 @@ local function HistoryWindow()
     -- Comandos y enlaces encontrados, a la derecha.
     local side = M.Font(history, 12)
     side:SetPoint("TOPLEFT", scroll, "TOPRIGHT", 22, 0)
-    side:SetText("Comandos y enlaces")
+    side:SetText(ns.Translate("Comandos y enlaces"))
     side:SetTextColor(0.85, 0.85, 0.9)
     history.empty = M.Font(history, 11)
     history.empty:SetPoint("TOPLEFT", side, "BOTTOMLEFT", 0, -10)
     history.empty:SetWidth(196)
     history.empty:SetWordWrap(true)
     history.empty:SetTextColor(0.6, 0.6, 0.65)
-    history.empty:SetText("No hay comandos ni direcciones en los últimos mensajes.")
+    history.empty:SetText(ns.Translate("No hay comandos ni direcciones en los últimos mensajes."))
     history.rows = {}
     for i = 1, EXTRA_ROWS do
         local row = W.Button(history, 196, "", function(self)
@@ -544,7 +544,7 @@ end
 function CH.OpenHistory(frame)
     local h = HistoryWindow()
     local lines = CH.ReadLines(frame or SelectedFrame(), 300)
-    local text = #lines > 0 and table.concat(lines, "\n") or "(No hay mensajes que se puedan copiar.)"
+    local text = #lines > 0 and table.concat(lines, "\n") or ns.Translate("(No hay mensajes que se puedan copiar.)")
     h.text = text
     h.box:SetText(text)
     local extras = CH.FindExtras(lines, EXTRA_ROWS)
@@ -552,7 +552,7 @@ function CH.OpenHistory(frame)
         local item = extras[i]
         row.item = item
         if item then
-            row.text:SetText(item.kind == "cmd" and ("Ejecutar  " .. item.value) or ("Web  " .. item.value))
+            row.text:SetText(item.kind == "cmd" and ns.LF("Ejecutar  %s", item.value) or ns.LF("Web  %s", item.value))
             row:Show()
         else
             row:Hide()

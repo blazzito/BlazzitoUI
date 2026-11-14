@@ -10,6 +10,8 @@ local _, ns = ...
 local M = ns.Media
 local W = {}
 ns.Widgets = W
+-- Idioma: los controles traducen solos lo que muestran (Locale.lua).
+local Tr = ns.Translate
 
 local function hex(h)
     return { tonumber(h:sub(1, 2), 16) / 255, tonumber(h:sub(3, 4), 16) / 255, tonumber(h:sub(5, 6), 16) / 255, 1 }
@@ -89,7 +91,7 @@ end
 -- Título de sección: condensada, mayúsculas, color secundario.
 function W.SectionTitle(parent, text, size)
     local fs = W.Text(parent, size or 12, DIM, false, "head")
-    fs:SetText(W.Upper(text))
+    fs:SetText(W.Upper(Tr(text)))
     return fs
 end
 
@@ -193,7 +195,7 @@ local function Base(parent, width, height, label)
     if label then
         f.label = W.Text(f, 12.5, T.textSoft)
         f.label:SetPoint("TOPLEFT")
-        f.label:SetText(label)
+        f.label:SetText(Tr(label))
     end
     return f
 end
@@ -256,7 +258,7 @@ function W.Toggle(parent, width, label, get, set)
     local text = W.Text(button, 13, T.textSoft)
     text:SetPoint("LEFT")
     text:SetPoint("RIGHT", switch, "LEFT", -10, 0)
-    text:SetText(label)
+    text:SetText(Tr(label))
 
     local hot = false
     button:SetScript("OnClick", function()
@@ -429,7 +431,7 @@ local function OpenMenu(owner, choices, current, onPick)
         item:ClearAllPoints()
         item:SetPoint("TOPLEFT", 1, -1 - (i - 1) * ITEM_H)
         item:SetWidth(width - 2)
-        item.text:SetText(choice.text)
+        item.text:SetText(Tr(choice.text))
         item.text:SetTextColor(unpack(choice.value == current and TEXT or T.textSoft))
         item.mark:SetVertexColor(unpack(ACCENT))
         item.mark:SetShown(choice.value == current)
@@ -478,7 +480,7 @@ function W.Dropdown(parent, width, label, choices, get, set)
         local current = get()
         for _, choice in ipairs(choices) do
             if choice.value == current then
-                text:SetText(choice.text)
+                text:SetText(Tr(choice.text))
                 text:SetTextColor(unpack(TEXT))
                 return
             end
@@ -487,7 +489,7 @@ function W.Dropdown(parent, width, label, choices, get, set)
             text:SetText(tostring(current))
             text:SetTextColor(unpack(TEXT))
         else
-            text:SetText(#choices == 0 and self.emptyText or self.placeholder)
+            text:SetText(Tr(#choices == 0 and self.emptyText or self.placeholder))
             text:SetTextColor(unpack(T.min))
         end
     end
@@ -531,7 +533,7 @@ function W.Color(parent, width, label, get, set)
     local text = W.Text(button, 13, T.textSoft)
     text:SetPoint("LEFT")
     text:SetPoint("RIGHT", swatch, "LEFT", -10, 0)
-    text:SetText(label)
+    text:SetText(Tr(label))
 
     button:SetScript("OnClick", function()
         OpenColorPicker(get(), function(r, g, b)
@@ -565,7 +567,7 @@ function W.Button(parent, width, label, onClick, primary, height)
     local button = Field(parent, T.field, T.btnBorder)
     local text = W.Text(button, 12, TEXT, false, primary and "bold" or "medium")
     text:SetPoint("CENTER")
-    text:SetText(label)
+    text:SetText(Tr(label))
     -- Sin ancho: el del texto más un margen.
     button:SetSize(width or math.ceil(text:GetStringWidth() + 22), height or 24)
     button.text = text
@@ -618,7 +620,7 @@ function W.IconButton(parent, icon, tooltip, onClick, label)
     button.icon:SetVertexColor(unpack(MUTED))
     if label then
         button.label = W.Text(button, 12, MUTED, false, "medium")
-        button.label:SetText(label)
+        button.label:SetText(Tr(label))
         button.icon:SetPoint("LEFT", 8, 0)
         button.label:SetPoint("LEFT", button.icon, "RIGHT", 6, 0)
         button:SetWidth(8 + 15 + 6 + button.label:GetStringWidth() + 10)
@@ -637,7 +639,7 @@ function W.IconButton(parent, icon, tooltip, onClick, label)
     end
     function button:UpdateTooltip()
         if self.hovered then
-            GameTooltip:SetText(tooltip())
+            GameTooltip:SetText(Tr(tooltip()))
             GameTooltip:Show()
         end
     end
@@ -680,7 +682,7 @@ function W.Tabs(parent, items, get, set, maxWidth)
     local widths, total = {}, 0
     local probe = W.Text(f, 13, MUTED, false, "medium")
     for i, item in ipairs(items) do
-        probe:SetText(item.text)
+        probe:SetText(Tr(item.text))
         widths[i] = probe:GetStringWidth()
         total = total + widths[i] + (i > 1 and TAB_GAP or 0)
     end
@@ -703,7 +705,7 @@ function W.Tabs(parent, items, get, set, maxWidth)
         local button = CreateFrame("Button", nil, f)
         button.text = W.Text(button, 13, MUTED, false, "medium")
         button.text:SetPoint("LEFT", 0, 1)
-        button.text:SetText(item.text)
+        button.text:SetText(Tr(item.text))
         local width = button.text:GetStringWidth()
         if limit and x > 0 and x + width > limit then
             x, row = 0, row + 1
@@ -763,7 +765,7 @@ function W.Segmented(parent, items, get, set)
         Color(b.bg, T.line)
         b.text = W.Text(b, 12, MUTED, false, "medium")
         b.text:SetPoint("CENTER")
-        b.text:SetText(item.text or item[2])
+        b.text:SetText(Tr(item.text or item[2]))
         local w = b.text:GetStringWidth() + 20
         b:SetSize(w, 22)
         b:SetPoint("TOPLEFT", x, -1)
@@ -957,7 +959,7 @@ function W.Layout(content, width)
         self.y = self.y - 8
         local fs = W.Text(content, 17, TEXT, false, "head")
         fs:SetPoint("TOPLEFT", self.x, self.y)
-        fs:SetText(W.Upper(text))
+        fs:SetText(W.Upper(Tr(text)))
         self.y = self.y - 30
         return fs
     end
@@ -968,7 +970,7 @@ function W.Layout(content, width)
         fs:SetWidth(self.width)
         fs:SetJustifyH("LEFT")
         fs:SetSpacing(2)
-        fs:SetText(text)
+        fs:SetText(Tr(text))
         self.y = self.y - fs:GetStringHeight() - 12
         return fs
     end

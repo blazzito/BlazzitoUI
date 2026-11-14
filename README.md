@@ -1,153 +1,161 @@
 <div align="center">
 
+<img src="logo.png" alt="BlazzitoUI" width="180">
+
 # BLAZZITO UI
 
-**Una interfaz ligera y modular para World of Warcraft Forever**
+**English** · [Español](README.es.md)
 
-![Versión](https://img.shields.io/badge/versión-0.8.4-4fc3f7?style=flat-square)
+**A light, modular interface for World of Warcraft Forever**
+
+![Version](https://img.shields.io/badge/version-0.8.4-4fc3f7?style=flat-square)
 ![WoW Forever](https://img.shields.io/badge/WoW-Forever-c69b6d?style=flat-square)
-![Idioma](https://img.shields.io/badge/idioma-español-555?style=flat-square)
+![Languages](https://img.shields.io/badge/languages-english%20·%20español-555?style=flat-square)
 
 </div>
 
 ---
 
-Hola 👋 Esto es un proyecto personal: soy un jugador joven de WoW que quería una interfaz a su gusto,
-para mí y para mis amigos. Nada más, sin pretensiones.
+Hi 👋 This is a personal project: I'm a young WoW player who wanted an interface I really liked,
+for me and my friends. That's all, no big pretensions.
 
-La idea es sencilla: **los marcos de Blizzard, pero con un aspecto limpio y oscuro**, y algunas
-comodidades que echaba de menos. No reemplaza las ventanas del juego: las viste. Todo se maneja desde
-una sola ventana de opciones (`/bui`) y cada parte se puede apagar si no te gusta.
+The idea is simple: **Blizzard's own frames, with a clean dark look**, plus a few quality-of-life
+touches I was missing. It doesn't replace the game's windows, it restyles them. Everything is set up
+from one options window (`/bui`) and every part can be turned off if you don't like it.
 
-![BlazzitoUI en Durotar](capturas/pantalla.jpg)
+🌐 **In English or Spanish**: it follows your WoW language by default, and you can change it in `/bui` → Home → Language.
 
-## 📸 Un vistazo
+![BlazzitoUI in Durotar](capturas/pantalla.jpg)
+
+## 📸 A quick look
 
 <table>
   <tr>
-    <td width="50%"><img src="capturas/opciones.jpg" alt="Ventana de opciones"><br><sub><b>Opciones</b> · <code>/bui</code> con vista previa en vivo</sub></td>
-    <td width="50%"><img src="capturas/personaje.jpg" alt="Ventana de personaje"><br><sub><b>Personaje</b> · nivel de objeto, durabilidad y estadísticas</sub></td>
+    <td width="50%"><img src="capturas/opciones.jpg" alt="Options window"><br><sub><b>Options</b> · <code>/bui</code> with a live preview</sub></td>
+    <td width="50%"><img src="capturas/personaje.jpg" alt="Character window"><br><sub><b>Character</b> · item level, durability and stats</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="capturas/talentos.jpg" alt="Talentos"><br><sub><b>Talentos</b> · los tres árboles con nuestro estilo</sub></td>
-    <td width="50%"><img src="capturas/bolsas.jpg" alt="Bolsas"><br><sub><b>Bolsas</b> · nivel de objeto, mejoras y basura marcada</sub></td>
+    <td width="50%"><img src="capturas/talentos.jpg" alt="Talents"><br><sub><b>Talents</b> · the three trees in our style</sub></td>
+    <td width="50%"><img src="capturas/bolsas.jpg" alt="Bags"><br><sub><b>Bags</b> · item level, upgrades and marked junk</sub></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="capturas/hechizos-macros.jpg" alt="Libro de hechizos y macros de clase"><br><sub><b>Libro de hechizos unificado</b> y la ventana de <b>macros de clase</b> a su lado</sub></td>
+    <td colspan="2"><img src="capturas/hechizos-macros.jpg" alt="Spellbook and class macros"><br><sub><b>Unified spellbook</b> with the <b>class macros</b> window next to it</sub></td>
   </tr>
 </table>
 
-## ✨ Qué incluye
+<sub>Screenshots taken with the interface in Spanish.</sub>
 
-BlazzitoUI está hecho de módulos. El núcleo es obligatorio y el resto lo activas o desactivas como quieras.
+## ✨ What's inside
 
-### 🧩 Núcleo — `BlazzitoUI`
-- **Ventana de opciones** (`/bui`) con buscador, vista previa en vivo y el color de tu clase como acento.
-- **Marcos de unidad**: jugador, objetivo, objetivo del objetivo, mascota, foco y objetivo del foco.
-  Varias formas, retrato 2D o 3D, y **puntos de combo** con diseño propio para pícaros y druidas.
-- **Mover marcos** (`/bui mover`) para colocar cada cosa donde quieras.
-- **Perfiles por personaje**: copia los ajustes de otro personaje, o exporta e importa los tuyos.
-- **Comodidad**: botín rápido, reparación automática (con fondos de hermandad si los hay) y venta de basura.
+BlazzitoUI is split into modules. The core is required; everything else can be turned on or off as you like.
 
-### ⚔️ Barras de acción — `Blazzito_ActionBars`
-- Las barras de Blizzard (1–8, mascota, posturas, bolsas, micromenú y experiencia) con nuestro estilo.
-- Formas de botón, reglas de visibilidad y **temporizadores de golpe** (cuerpo a cuerpo y a distancia).
+### 🧩 Core — `BlazzitoUI`
+- **Options window** (`/bui`) with search, live preview and your class color as the accent.
+- **Unit frames**: player, target, target of target, pet, focus and focus target.
+  Several shapes, 2D or 3D portraits, and custom **combo points** for rogues and druids.
+- **Move frames** (`/bui mover`) to put everything where you want it.
+- **Per-character profiles**: copy another character's settings, or export and import your own.
+- **Language**: English or Spanish (automatic from your WoW, or the one you pick).
+- **Quality of life**: fast loot, auto repair (with guild funds when available) and auto-selling junk.
+
+### ⚔️ Action bars — `Blazzito_ActionBars`
+- Blizzard's bars (1–8, pet, stances, bags, micro menu and experience) in our style.
+- Button shapes, visibility rules and **swing timers** (melee and ranged).
 
 ### 🛡️ Auras — `Blazzito_Auras`
-- Beneficios y perjuicios en los marcos de unidad, como iconos o como barras.
-- Marca para lo que puedes disipar, y el marco de beneficios de Blizzard con el mismo estilo.
+- Buffs and debuffs on the unit frames, as icons or bars.
+- A mark for what you can dispel, and Blizzard's buff frame in the same style.
 
-### 🎒 Bolsas — `Blazzito_Bags`
-- Bolsas y banco con borde del color de la calidad, **nivel de objeto** y **flechas de mejora**.
-- Brillo en los objetos nuevos, huecos libres en el botón de la mochila y la basura marcada (se vende sola en el vendedor).
-- **Acciones rápidas** con Alt+clic: desencantar, forzar cerraduras, prospectar o moler.
-- **Basura junto al botín**: si tienes las bolsas llenas, al abrir un botín aparece tu basura con su precio y un botón para tirarla.
-  Y un botón **«Recoger todo»** debajo de la ventana de botín.
+### 🎒 Bags — `Blazzito_Bags`
+- Bags and bank with quality-colored borders, **item level** and **upgrade arrows**.
+- New-item glow, free slots on the backpack button and marked junk (sold automatically at vendors).
+- **Quick actions** with Alt+click: disenchant, pick locks, prospect or mill.
+- **Junk next to the loot window**: when your bags are full, opening loot shows your junk with its price and a button to destroy it.
+  Plus a **"Loot all"** button under the loot window.
 
 ### 💬 Chat — `Blazzito_Chat`
-- Chat con nuestro estilo: copiar mensajes, historial, enlaces y comandos que se pueden pulsar, y emoticonos.
+- Chat in our style: copy messages, history, clickable links and commands, and emotes.
 
-### 💥 Texto de combate — `Blazzito_CombatText`
-- Texto de combate propio en arcos: daño y curas que haces y recibes, críticos, avisos, botín y rachas.
-- Zonas que se pueden mover, iconos, varias fuentes con vista previa y un resumen al terminar el combate.
+### 💥 Combat text — `Blazzito_CombatText`
+- Its own floating combat text in arcs: damage and healing in and out, crits, alerts, loot and streaks.
+- Movable zones, icons, several fonts with a preview and a summary when combat ends.
 
-### 🎮 Mando — `Blazzito_Gamepad`
-- Si entras con un mando conectado, te pregunta si quieres jugar con mando o con teclado y ratón.
-- Estilo de BlazzitoUI sobre los botones de mando de Blizzard.
+### 🎮 Gamepad — `Blazzito_Gamepad`
+- If you log in with a controller connected, it asks whether you want gamepad or keyboard and mouse.
+- BlazzitoUI's style on top of Blizzard's gamepad buttons.
 
-### 🖥️ Gráficos — `Blazzito_Graphics`
-- Ajustes de gráficos de un clic (de **Más FPS** a **Máxima calidad**), copia de seguridad de los tuyos y límites de FPS.
+### 🖥️ Graphics — `Blazzito_Graphics`
+- One-click graphics presets (from **More FPS** to **Max quality**), a backup of your own settings and FPS limits.
 
-### 👥 Grupo y banda — `Blazzito_Group`
-- Marcos de grupo y banda con rol, disipables, alcance y amenaza.
-- **Tus beneficios**: ves qué buffs tuyos lleva cada miembro, y en gris los que le faltan.
+### 👥 Party & raid — `Blazzito_Group`
+- Party and raid frames with role, dispels, range and threat.
+- **Your buffs**: see which of your buffs each member has, and the missing ones in grey.
 
-### 📜 Macros de clase — `Blazzito_Macros`
-- Las macros esenciales de las 9 clases en una ventana junto al libro de hechizos.
-- Se desbloquean al aprender la habilidad, se arrastran a las barras y algunas se actualizan solas
-  (cambio de arma, comida de la mascota, mejores pociones, comer y beber…).
+### 📜 Class macros — `Blazzito_Macros`
+- Essential macros for all 9 classes, in a window next to the spellbook.
+- They unlock as you learn the spell, you drag them to your bars, and some update themselves
+  (weapon swap, pet food, best potions, eat and drink…).
 
-### 🧭 Minimapa — `Blazzito_Minimap`
-- Formas, puntos cardinales, zona, hora y coordenadas, y los botones de otros addons recogidos.
-- Y la **huella de tu mascota** 🐾
+### 🧭 Minimap — `Blazzito_Minimap`
+- Shapes, cardinal points, zone, clock and coordinates, and other addons' buttons tidied up.
+- And your **pet's paw print** 🐾
 
-### 🎯 Placas de nombre — `Blazzito_Nameplates` y `Blazzito_ThreatPlate`
-- Placas enemigas con nuestro estilo y aviso de alcance.
-- Tu porcentaje de amenaza en cada placa.
+### 🎯 Nameplates — `Blazzito_Nameplates` and `Blazzito_ThreatPlate`
+- Enemy nameplates in our style with a range warning.
+- Your threat percentage on each plate.
 
-### 🗺️ Misiones — `Blazzito_QuestTracker`
-- Retoques sobre el rastreador de **Questie** (no lo reemplaza): destacar misiones, también desde el mapa.
+### 🗺️ Quests — `Blazzito_QuestTracker`
+- Touches on top of **Questie**'s tracker (it doesn't replace it): highlight quests, also from the map.
 
-### ⚙️ Ajustes entre personajes — `Blazzito_Setup`
-- Copia la configuración del juego de tu personaje principal (barras, opciones, Edit Mode, addons activos)
-  a los demás (`/blazz`).
+### ⚙️ Settings across characters — `Blazzito_Setup`
+- Copies your main's game settings (bars, options, Edit Mode, enabled addons) to your other characters (`/blazz`).
 
-### 🪟 Ventanas — `Blazzito_Windows`
-- Las ventanas de Blizzard con nuestro estilo: **personaje** (calidad, nivel de objeto, durabilidad, estadísticas),
-  reputación, habilidades, panel de la **mascota**, **talentos**, **mapa** y registro de misiones, entrenadores,
-  botín, comerciante, correo, profesiones, subastas y menús desplegables.
-- Un **libro de hechizos unificado** con pestañas de hechizos y mascota, que marca lo que aún no está en tus barras.
+### 🪟 Windows — `Blazzito_Windows`
+- Blizzard's windows in our style: **character** (quality, item level, durability, stats), reputation, skills,
+  **pet** panel, **talents**, **map** and quest log, trainers, loot, merchant, mail, professions, auction house
+  and dropdown menus.
+- A **unified spellbook** with spells and pet tabs that marks what isn't on your bars yet.
 
-## 📦 Instalación
+## 📦 Installation
 
-1. Descarga el último `.zip` desde [Releases](../../releases/latest).
-2. Descomprímelo en:
+1. Download the latest `.zip` from [Releases](../../releases/latest).
+2. Unzip it into:
    ```
    World of Warcraft\_forever_\Interface\AddOns
    ```
-   Deben quedar las carpetas `BlazzitoUI` y `Blazzito_…` **directamente** dentro de `AddOns`.
-3. Entra en el juego y escribe `/bui`.
+   The `BlazzitoUI` and `Blazzito_…` folders must end up **directly** inside `AddOns`.
+3. Log in and type `/bui`.
 
-**Para actualizar**, reemplaza las carpetas por las nuevas. Tus ajustes no se pierden, porque se guardan en la carpeta `WTF`.
+**To update**, replace the folders with the new ones. Your settings are kept, because they live in the `WTF` folder.
 
-> Hecho para **WoW Forever** (`## Interface: 16001`). En otras versiones del juego probablemente no funcione.
+> Made for **WoW Forever** (`## Interface: 16001`). It probably won't work on other versions of the game.
 
-## ⌨️ Comandos
+## ⌨️ Commands
 
-| Comando | Qué hace |
+| Command | What it does |
 |---|---|
-| `/bui` | Abre las opciones |
-| `/bui mover` | Mover los marcos |
-| `/bui reset` | Volver a los ajustes de fábrica |
-| `/bui macros` | Ventana de macros de clase |
-| `/bui mando` | Estado del mando |
-| `/bui graficos` | Tus ajustes de gráficos actuales |
-| `/blazz` | Copiar ajustes de tu main a otros personajes |
+| `/bui` | Opens the options |
+| `/bui mover` | Move the frames |
+| `/bui reset` | Put the frames back in their place |
+| `/bui macros` | Class macros window |
+| `/bui mando` | Gamepad status |
+| `/bui graficos` | Your current graphics settings |
+| `/blazz` | Copy your main's settings to other characters |
 
-## 🤝 Se lleva bien con
+## 🤝 Plays well with
 
 Questie · PrettyTooltip · BlizzMove · OmniCC · DialogueUI · Leatrix Plus · WaypointUI · SkillUp
 
-## 🙏 Créditos
+## 🙏 Credits
 
-- Fuentes **Barlow**, **Barlow Condensed**, **Changa**, **PT Sans Narrow** y **Russo One**, con licencia
+- Fonts **Barlow**, **Barlow Condensed**, **Changa**, **PT Sans Narrow** and **Russo One**, under the
   [SIL Open Font License 1.1](BlazzitoUI/Media/Fonts/FONTS-LICENSE.txt).
-- Inspirado en la idea de una interfaz modular como EllesmereUI, pero mucho más pequeño y escrito desde cero.
+- Inspired by the idea of a modular interface like EllesmereUI, but much smaller and written from scratch.
 
 ---
 
 <div align="center">
 
-Hecho con cariño por **Blazzito** · para mí y mis amigos 🦊
+Made with love by **Blazzito** · for me and my friends 🦊
 
 </div>

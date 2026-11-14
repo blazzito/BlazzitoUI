@@ -8,6 +8,8 @@
 ## SavedVariables: BlazzitoUIDB
 
 # Núcleo
+Core\Locale.lua
+Locales\enUS.lua
 Core\Core.lua
 Core\Media.lua
 Core\Blizzard.lua

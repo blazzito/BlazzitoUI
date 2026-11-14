@@ -504,11 +504,11 @@ function C.UpdateAverage()
     local hex = r and string.format("|cff%02x%02x%02x", r * 255, g * 255, b * 255) or "|cffffffff"
     local parts = {}
     local value = o.averageLevel and extra.on and C.AverageLevel()
-    if value then parts[#parts + 1] = "Nivel de objeto " .. hex .. string.format("%.1f", value) .. "|r" end
+    if value then parts[#parts + 1] = ns.LF("Nivel de objeto %s%.1f|r", hex, value) end
     local dura = o.durability and extra.on and C.TotalDurability()
     if dura then
         local color = dura <= 20 and "|cffff4040" or (dura <= (o.durabilityWarn or 50) and "|cffffcc40" or "|cffffffff")
-        parts[#parts + 1] = "Durabilidad " .. color .. string.format("%d%%", math.floor(dura + 0.5)) .. "|r"
+        parts[#parts + 1] = ns.LF("Durabilidad %s%d%%|r", color, math.floor(dura + 0.5))
     end
     if #parts > 0 then
         text:SetText(table.concat(parts, "  |cff666666·|r  "))

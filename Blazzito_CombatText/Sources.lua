@@ -75,7 +75,7 @@ end
 local function Show(name, fmt, a, b, crit, icon, color)
     local cat = Cat(name)
     if not cat then return end
-    CT.Emit(cat.area, fmt, a, b, color or cat.color, crit, icon)
+    CT.Emit(cat.area, ns.Translate(fmt), a, b, color or cat.color, crit, icon)
 end
 
 ---------------------------------------------------------------------------

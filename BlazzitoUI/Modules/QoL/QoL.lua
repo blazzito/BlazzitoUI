@@ -61,15 +61,15 @@ function Q.Repair()
         local funds = GetGuildBankWithdrawMoney and Readable(GetGuildBankWithdrawMoney())
         if type(funds) == "number" and (funds == -1 or funds >= cost) then
             RepairAllItems(true)
-            if Q.db.report then ns.Print("equipo reparado con el dinero de la hermandad: " .. Money(cost) .. ".") end
+            if Q.db.report then ns.Print("equipo reparado con el dinero de la hermandad: %s.", Money(cost)) end
             return
         end
     end
     if GetMoney() >= cost then
         RepairAllItems()
-        if Q.db.report then ns.Print("equipo reparado por " .. Money(cost) .. ".") end
+        if Q.db.report then ns.Print("equipo reparado por %s.", Money(cost)) end
     elseif Q.db.report then
-        ns.Print("no te alcanza para reparar todo (" .. Money(cost) .. ").")
+        ns.Print("no te alcanza para reparar todo (%s).", Money(cost))
     end
 end
 
@@ -114,7 +114,7 @@ function Q.SellJunk()
         if not merchantOpen then return end
         local item = list[i]
         if not item then
-            if Q.db.report then ns.Print(string.format("basura vendida: %d %s.", sold, sold == 1 and "objeto" or "objetos")) end
+            if Q.db.report then ns.Print(sold == 1 and "basura vendida: %d objeto." or "basura vendida: %d objetos.", sold) end
             return
         end
         local info = C_Container.GetContainerItemInfo(item.bag, item.slot)

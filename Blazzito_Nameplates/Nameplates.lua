@@ -476,7 +476,7 @@ function NP.PaintPreview(p)
     p.health:SetMinMaxValues(0, 100)
     p.health:SetValue(65)
     p.hp:SetText("65%")
-    p.name:SetText("Ogro salvaje")
+    p.name:SetText(ns.Translate("Ogro salvaje"))
     p.highlight:SetShown(NP.db.targetHighlight)
     local cast = p.cast
     if NP.db.castbar then
@@ -485,7 +485,7 @@ function NP.PaintPreview(p)
         cast.startMS, cast.endMS = now, now + 2500
         cast.bar:SetMinMaxValues(0, 2500)
         cast.icon:SetTexture("Interface\\Icons\\Spell_Fire_Fireball02")
-        cast.text:SetText("Bola de fuego")
+        cast.text:SetText(ns.Translate("Bola de fuego"))
         M.ColorBar(cast.bar, NP.db.castColor[1], NP.db.castColor[2], NP.db.castColor[3])
         cast:Show()
     else

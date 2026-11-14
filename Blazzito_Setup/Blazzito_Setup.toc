@@ -10,4 +10,5 @@
 ## SavedVariables: BlazzSetupDB
 ## IconTexture: Interface/AddOns/BlazzitoUI/icon
 
+Locale_en.lua
 Setup.lua

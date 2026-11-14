@@ -374,7 +374,7 @@ local function Tooltip(self)
     if not ok and d.item.spellID then pcall(GameTooltip.SetSpellByID, GameTooltip, d.item.spellID) end
     if Opts().markUnbound and B.OnBars(d.item) == false then
         local r, g, b = Win.Accent()
-        GameTooltip:AddLine("No está en tus barras", r or 1, g or 0.82, b or 0)
+        GameTooltip:AddLine(ns.Translate("No está en tus barras"), r or 1, g or 0.82, b or 0)
     end
     GameTooltip:Show()
 end
@@ -457,10 +457,10 @@ local function Paint(b, item)
     d.name:SetText(item.name or "")
     d.name:SetTextColor(INK[1], INK[2], INK[3], dim and 0.6 or 1)
     local sub = item.sub
-    if item.passive then sub = (sub and sub ~= "" and (sub .. " · ") or "") .. "Pasiva" end
-    if item.flyout and (not sub or sub == "") then sub = "Grupo de hechizos" end
+    if item.passive then sub = (sub and sub ~= "" and (sub .. " · ") or "") .. ns.Translate("Pasiva") end
+    if item.flyout and (not sub or sub == "") then sub = ns.Translate("Grupo de hechizos") end
     if item.autoAllowed then
-        sub = (sub and sub ~= "" and (sub .. " · ") or "") .. (item.autoOn and "Automático" or "Manual (clic derecho: automático)")
+        sub = (sub and sub ~= "" and (sub .. " · ") or "") .. ns.Translate(item.autoOn and "Automático" or "Manual (clic derecho: automático)")
         if item.autoOn and r then d.edge:SetColorTexture(r, g, bl, 1) end
     end
     d.sub:SetText(sub or "")
@@ -609,7 +609,7 @@ function B.Render()
         buttons[i]:Hide()
     end
     if controls then
-        controls.text:SetText(string.format("Página %d/%d", B.spread, B.spreads))
+        controls.text:SetText(ns.LF("Página %d/%d", B.spread, B.spreads))
         controls.prev:SetEnabled(B.spread > 1)
         controls.next:SetEnabled(B.spread < B.spreads)
         controls.prev:SetAlpha(B.spread > 1 and 1 or 0.35)
@@ -622,7 +622,7 @@ end
 
 function B.Turn(step)
     if Combat() then
-        if UIErrorsFrame then UIErrorsFrame:AddMessage("Las páginas se pasan fuera de combate.", 1, 0.3, 0.3) end
+        if UIErrorsFrame then UIErrorsFrame:AddMessage(ns.Translate("Las páginas se pasan fuera de combate."), 1, 0.3, 0.3) end
         return
     end
     local to = math.max(1, math.min(B.spreads, B.spread + step))
@@ -672,7 +672,7 @@ local function Build(sb, paged)
     book.empty:SetFont(M.FONT, 14, "")
     book.empty:SetTextColor(INK_SOFT[1], INK_SOFT[2], INK_SOFT[3])
     book.empty:SetPoint("CENTER")
-    book.empty:SetText("Ningún hechizo coincide con la búsqueda.")
+    book.empty:SetText(ns.Translate("Ningún hechizo coincide con la búsqueda."))
     book.empty:Hide()
     controls = Win.Own(CreateFrame("Frame", nil, book))
     controls:SetSize(220, 30)
@@ -729,7 +729,7 @@ end
 function B.SetMode(mode)
     if mode == B.mode then return end
     if Combat() then
-        if UIErrorsFrame then UIErrorsFrame:AddMessage("Se cambia de página al salir de combate.", 1, 0.3, 0.3) end
+        if UIErrorsFrame then UIErrorsFrame:AddMessage(ns.Translate("Se cambia de página al salir de combate."), 1, 0.3, 0.3) end
         ns.AfterCombat("bui-spellbook-mode", function() B.SetMode(mode) end)
         return
     end
@@ -758,8 +758,8 @@ local function Tab(parent, key, icon, title, text)
     tab:SetScript("OnClick", function() B.SetMode(key) end)
     tab:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText(title)
-        GameTooltip:AddLine(text, 1, 1, 1, true)
+        GameTooltip:SetText(ns.Translate(title))
+        GameTooltip:AddLine(ns.Translate(text), 1, 1, 1, true)
         GameTooltip:Show()
     end)
     tab:SetScript("OnLeave", function() GameTooltip:Hide() end)
