@@ -118,6 +118,24 @@ ns.LOCALES.en = {
     ["Toda la configuración está en su propia ventana (también con /bui)."] = "All the settings live in their own window (also with /bui).",
     ["Abrir configuración"] = "Open settings",
 
+    -- Bienvenida
+    ["¡Gracias por elegir %s! Estás en la versión %s. Escribe %s para dejarlo a tu gusto."] = "Thanks for choosing %s! You're on version %s. Type %s to make it your own.",
+    ["%s se actualizó a la versión %s. ¡Gracias por seguir con nosotros!"] = "%s was updated to version %s. Thanks for sticking with us!",
+    ["%s %s · %s"] = "%s %s · %s",
+    ["¡Buena caza!"] = "Happy hunting!",
+    ["¡Que el botín te acompañe!"] = "May the loot be with you!",
+    ["Tu interfaz está lista. ¡A por ellos!"] = "Your interface is ready. Go get them!",
+    ["¡Que caigan muchos épicos hoy!"] = "May lots of epics drop today!",
+    ["Recuerda vaciar las bolsas antes de la mazmorra."] = "Remember to empty your bags before the dungeon.",
+    ["¡Hoy es un buen día para subir de nivel!"] = "Today is a good day to level up!",
+    ["¡Que no te falte el maná!"] = "May your mana never run dry!",
+    ["El zorro te saluda."] = "The fox says hi.",
+    ["Bienvenida"] = "Welcome",
+    ["Mensaje de bienvenida al entrar"] = "Welcome message on login",
+    ["Ver el mensaje"] = "Show the message",
+    ["Un saludo corto en el chat al entrar al juego (no al recargar), con tu versión de BlazzitoUI. Tras una actualización te avisa de la versión nueva."] =
+        "A short greeting in chat when you log in (not on reload), with your BlazzitoUI version. After an update it tells you about the new version.",
+
     -- Controles
     ["Elige una opción"] = "Choose an option",
     ["No hay opciones"] = "No options",

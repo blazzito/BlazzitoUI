@@ -16,6 +16,7 @@ Core\Blizzard.lua
 Core\Widgets.lua
 Core\Movers.lua
 Core\Config.lua
+Core\Welcome.lua
 Core\Profiles.lua
 Core\Pad.lua
 Core\GameMenu.lua
