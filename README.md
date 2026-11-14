@@ -8,7 +8,7 @@
 
 **A light, modular interface for World of Warcraft Forever**
 
-![Version](https://img.shields.io/badge/version-0.8.6-4fc3f7?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.9.0-4fc3f7?style=flat-square)
 ![WoW Forever](https://img.shields.io/badge/WoW-Forever-c69b6d?style=flat-square)
 ![Languages](https://img.shields.io/badge/languages-english%20·%20español-555?style=flat-square)
 
