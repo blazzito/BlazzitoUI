@@ -993,6 +993,17 @@ function W.Layout(content, width)
         self.y = self.y - height - 12
     end
 
+    -- Zona fijada arriba de la página: la ventana la saca del desplazamiento y
+    -- la deja bajo la cabecera, siempre a la vista (vistas previas). El
+    -- llamador coloca sus piezas dentro; mide todo el ancho de la página.
+    function L:Pinned(height)
+        local pin = CreateFrame("Frame", nil, content)
+        pin:SetSize(width, height)
+        pin.keepWidth = true
+        self.pinned = pin
+        return pin
+    end
+
     function L:Full(widget, enabledIf)
         if self.card then widget:SetParent(self.card) end
         widget:SetPoint("TOPLEFT", Host(), "TOPLEFT", self.x, self.y)

@@ -134,4 +134,5 @@ BlazzitoUI.AddLocale("en", {
     ["Avisar desde (%)"] = "Warn below (%)",
     ["La durabilidad sale en la casilla cuando baja del porcentaje elegido: en amarillo, y en rojo a partir del 20 %. La camisa, el tabardo y la munición no llevan nivel de objeto."] =
         "Durability shows on the slot when it drops below the chosen percentage: in yellow, and in red from 20 %. Shirt, tabard and ammo get no item level.",
+    ["Menú de Esc"] = "Escape menu",
 })

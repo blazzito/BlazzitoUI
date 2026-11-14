@@ -32,7 +32,7 @@ local Win = ns.NewModule("Windows", "Ventanas", {
     talents = { enabled = true, art = 40, ranks = true, summary = true, glow = true },
     spellbook = { enabled = true, expand = true, markUnbound = true, markOldRank = true },
     worldmap = { enabled = true, headers = true, cards = true },
-    trainer = { enabled = true }, loot = { enabled = true }, merchant = { enabled = true },
+    trainer = { enabled = true }, loot = { enabled = true }, merchant = { enabled = true }, gamemenu = { enabled = true },
     mail = { enabled = true }, professions = { enabled = true }, auction = { enabled = true },
 })
 ns.Windows = Win
@@ -723,7 +723,7 @@ end
 
 -- Nombres en español para /bui ventanas <ventana>.
 local ALIASES = { personaje = "character", talentos = "talents", libro = "spellbook", mapa = "worldmap", entrenador = "trainer",
-    botin = "loot", ["botín"] = "loot", comerciante = "merchant", correo = "mail", profesiones = "professions", subastas = "auction" }
+    botin = "loot", ["botín"] = "loot", comerciante = "merchant", correo = "mail", profesiones = "professions", subastas = "auction", menu = "gamemenu", ["menú"] = "gamemenu" }
 
 function Win.Diagnose(which)
     if which == "" then which = nil end

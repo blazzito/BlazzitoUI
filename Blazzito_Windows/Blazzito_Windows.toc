@@ -16,5 +16,6 @@ Talents.lua
 Spellbook.lua
 Map.lua
 Others.lua
+GameMenu.lua
 Menus.lua
 Config.lua

@@ -1,8 +1,8 @@
 ## Interface: 16001
 ## Title: |cff4fc3f7Blazzito|r_Nameplates
-## Notes: Placas de nombre de los enemigos con el estilo de BlazzitoUI e indicador de rango.
+## Notes: Placas de nombre de los enemigos con el estilo de BlazzitoUI: formas nítidas, aggro, alcance, tus debuffs y lanzamientos.
 ## Author: Blazzito
-## Version: 0.1.0
+## Version: 2.0.0
 ## Group: BlazzitoUI
 ## Category: BlazzitoUI
 ## Dependencies: BlazzitoUI
@@ -10,4 +10,9 @@
 
 Locale_en.lua
 Nameplates.lua
+Shape.lua
+Plate.lua
+Debuffs.lua
+Quest.lua
+Driver.lua
 Config.lua

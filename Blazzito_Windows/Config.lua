@@ -191,6 +191,8 @@ ns.Config.RegisterPage("windows", "Ventanas", 21, function(content, width)
     local g5, s5 = other("professions")
     local g6, s6 = other("auction")
     L:Row(W.Toggle(content, col, "Profesiones", g5, s5), W.Toggle(content, col, "Casa de subastas", g6, s6))
+    local g7, s7 = other("gamemenu")
+    L:Row(W.Toggle(content, col, "Menú de Esc", g7, s7))
     L:Note("Marco oscuro con la barra de acento y, dentro, botones, buscadores y casillas planos: el icono recortado con borde fino y el color de calidad de Blizzard. Lo que hace cada ventana no cambia. Si alguna pieza sigue con el estilo antiguo, abre la ventana y escribe /bui ventanas.")
     L:EndCard()
 

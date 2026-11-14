@@ -30,8 +30,7 @@ C.META = {
     unitframes   = { group = "MARCOS", icon = "unit", module = "UnitFrames", desc = "Jugador, objetivo, foco y mascota: forma, retrato, barras y combo." },
     group        = { group = "MARCOS", icon = "group", module = "Group", desc = "Marcos de grupo y de banda con el mismo motor." },
     auras        = { group = "MARCOS", icon = "aura", module = "Auras", desc = "Beneficios y perjuicios sobre cada marco, como iconos o barras." },
-    nameplates   = { group = "MARCOS", icon = "plate", module = "Nameplates", desc = "Placas de nombre enemigas con nuestro estilo y aviso de alcance." },
-    threatplate  = { group = "MARCOS", icon = "threat", module = "ThreatPlate", desc = "Porcentaje de amenaza sobre las placas de nombre." },
+    nameplates   = { group = "MARCOS", icon = "plate", module = "Nameplates", desc = "Placas enemigas nítidas: aggro, alcance, tus debuffs y lanzamientos." },
     actionbars   = { group = "COMBATE", icon = "bars", module = "ActionBars", desc = "Barras de acción con forma, visibilidad y temporizador de golpe." },
     combattext   = { group = "COMBATE", icon = "bolt", module = "CombatText", desc = "Daño y curación en zonas propias, críticos, rachas y resumen." },
     macros       = { group = "COMBATE", icon = "bars", module = "Macros", desc = "Las macros esenciales de tu clase, listas para arrastrar y al día solas." },
@@ -48,6 +47,8 @@ C.META = {
 local MODULE_EXTRA = {
     QoL = { group = "SISTEMA", icon = "sliders", page = "general", desc = "Botín rápido, reparación automática y vender basura." },
     Setup = { group = "SISTEMA", icon = "copy", page = "profiles", desc = "Copia opciones del juego de tu main a tus otros personajes." },
+    -- Sus ajustes están en la página de placas (sección Aggro).
+    ThreatPlate = { group = "MARCOS", icon = "threat", page = "nameplates", desc = "Porcentaje de amenaza sobre las placas de nombre." },
 }
 
 function C.Meta(id)
@@ -128,6 +129,22 @@ local function BuildPage(page, host)
     scroll:SetScrollChild(content)
     page.layout = page.build(content, width)
     content:SetHeight(page.layout:Height())
+    -- Zona fijada (L:Pinned): fuera del desplazamiento, bajo la cabecera; la
+    -- página empieza debajo de ella y se muestra y oculta con su página.
+    local pin = page.layout.pinned
+    if pin then
+        pin:SetParent(host)
+        pin:ClearAllPoints()
+        pin:SetPoint("TOPLEFT", host, "TOPLEFT", 0, -PAGE_HEAD)
+        pin:SetPoint("TOPRIGHT", host, "TOPRIGHT", -12, -PAGE_HEAD)
+        scroll:ClearAllPoints()
+        scroll:SetPoint("TOPLEFT", 0, -PAGE_HEAD - pin:GetHeight())
+        scroll:SetPoint("BOTTOMRIGHT", -12, 2)
+        pin:SetShown(scroll:IsShown())
+        scroll:HookScript("OnShow", function() pin:Show() end)
+        scroll:HookScript("OnHide", function() pin:Hide() end)
+        page.pin = pin
+    end
     page.scroll = scroll
     page.scrollBar = W.ScrollBar(scroll, 1)
     -- La barra es hermana del scroll: se muestra y oculta con su página.
