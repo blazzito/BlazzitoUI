@@ -1,0 +1,15 @@
+## Interface: 16001
+## Title: |cff4fc3f7Blazzito|r_Radial
+## Notes: Menú radial: una tecla abre un anillo con el menú del juego, personaje, libro, talentos, profesiones, monturas y gestos. Módulo de BlazzitoUI.
+## Author: Blazzito
+## Version: 1.0.0
+## Group: BlazzitoUI
+## Category: BlazzitoUI
+## Dependencies: BlazzitoUI
+## IconTexture: Interface/AddOns/BlazzitoUI/icon
+
+# Bindings.xml no se lista: el juego lo carga solo desde la carpeta del addon
+# (listarlo registraría la tecla dos veces).
+Locale_en.lua
+Radial.lua
+Config.lua

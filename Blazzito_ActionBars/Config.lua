@@ -52,6 +52,9 @@ ns.Config.RegisterPage("actionbars", "Barras de acción", 14, function(content, 
               function(v) AB.db.style.showWhileDragging = v end),
           W.Slider(content, col, "Duración del fundido (s)", 0, 1, 0.05, function() return AB.db.style.fadeTime end,
               function(v) AB.db.style.fadeTime = v end))
+    L:Row(W.Toggle(content, col, "Fijar la página de la barra 1 (sin Mayús + rueda)", function() return AB.db.style.lockPaging end,
+              function(v) AB.db.style.lockPaging = v; AB.ApplyPaging() end))
+    L:Note("Con la página fijada, Mayús + rueda del ratón (y las teclas de página siguiente y anterior) ya no cambian la barra 1 a las páginas 2, 3, 4... Tus atajos no se tocan: al quitarla vuelven a funcionar como antes.")
     L:Note("Las barras siguen siendo las de WoW: su posición y tamaño se cambian en el Modo edición de Blizzard (Esc > Modo edición). Aquí cambian su aspecto y cuándo se ven. La barra de la pestaña elegida brilla en pantalla.")
     L:EndCard()
 

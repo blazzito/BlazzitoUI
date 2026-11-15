@@ -39,6 +39,7 @@ C.META = {
     bags         = { group = "MUNDO Y VENTANAS", icon = "bag", module = "Bags", desc = "Bolsas y banco: nivel de objeto, mejoras, basura y atajos." },
     questtracker = { group = "MUNDO Y VENTANAS", icon = "quest", module = "QuestTracker", desc = "Ajustes sobre el rastreador de misiones de Questie." },
     chat         = { group = "MUNDO Y VENTANAS", icon = "chat", module = "Chat", desc = "Filtros, enlaces, emoticonos e historial del chat." },
+    radial       = { group = "MUNDO Y VENTANAS", icon = "radial", module = "Radial", desc = "Una tecla abre un anillo con el menú, tus ventanas, monturas y gestos." },
     graphics     = { group = "SISTEMA", icon = "monitor", module = "Graphics", desc = "Presets de un clic, copias de seguridad y límite de FPS." },
     gamepad      = { group = "SISTEMA", icon = "gamepad", module = "Gamepad", desc = "Mando o teclado y ratón al entrar, y cómo se adapta BlazzitoUI al estilo de mando." },
 }

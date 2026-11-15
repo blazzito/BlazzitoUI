@@ -55,8 +55,7 @@ end
 
 local function Money(copper)
     if not copper or copper <= 0 then return "—" end
-    if GetCoinTextureString then return GetCoinTextureString(copper) end
-    return copper .. " c"
+    return M.Money(copper)
 end
 
 -- Tu basura, la más barata primero (la que menos duele tirar).

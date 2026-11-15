@@ -43,6 +43,30 @@ function M.IsSecret(value)
     return (issecretvalue and issecretvalue(value)) and true or false
 end
 
+-- Dinero como lo escribe WoW: oro, plata y cobre, cada número del color de su
+-- moneda y con su icono; se saltan las monedas a 0 ("2 oro 4 cobre"). No se
+-- usa GetCoinTextureString: en Forever lo deja todo en cobre.
+M.COIN = {
+    { div = 10000, color = "ffd100", icon = "Interface\\MoneyFrame\\UI-GoldIcon" },
+    { div = 100,   color = "e6e6e6", icon = "Interface\\MoneyFrame\\UI-SilverIcon" },
+    { div = 1,     color = "eda55f", icon = "Interface\\MoneyFrame\\UI-CopperIcon" },
+}
+function M.Money(copper)
+    copper = M.Readable(copper)
+    if type(copper) ~= "number" then return "" end
+    copper = math.floor(copper + 0.5)
+    local parts = {}
+    for i, coin in ipairs(M.COIN) do
+        local n = math.floor(copper / coin.div)
+        copper = copper - n * coin.div
+        -- El cobre sale aunque sea 0 si no hay nada más (0 cobre).
+        if n > 0 or (i == #M.COIN and #parts == 0) then
+            parts[#parts + 1] = ("|cff%s%d|r|T%s:0:0:2:0|t"):format(coin.color, n, coin.icon)
+        end
+    end
+    return table.concat(parts, " ")
+end
+
 -- Colores de recurso propios donde el de Blizzard es demasiado fuerte.
 M.POWER_COLORS = {
     MANA = { 0.24, 0.47, 0.86 },
@@ -246,7 +270,7 @@ M.ICONS = {
 -- Iconos de trazo de la barra lateral de opciones (tools/make_ui.py).
 M.NAV_ICONS = {}
 for _, key in ipairs({ "home", "unit", "group", "aura", "plate", "threat", "bars", "bolt", "window", "compass",
-                       "bag", "quest", "chat", "monitor", "layers", "sliders", "copy", "search", "eye", "gamepad" }) do
+                       "bag", "quest", "chat", "monitor", "layers", "sliders", "copy", "search", "eye", "gamepad", "radial" }) do
     M.NAV_ICONS[key] = "Interface\\AddOns\\BlazzitoUI\\Media\\nav_" .. key
 end
 

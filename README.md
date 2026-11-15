@@ -8,7 +8,7 @@
 
 **A light, modular interface for World of Warcraft Forever**
 
-![Version](https://img.shields.io/badge/version-0.9.0-4fc3f7?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.10.0-4fc3f7?style=flat-square)
 ![WoW Forever](https://img.shields.io/badge/WoW-Forever-c69b6d?style=flat-square)
 ![Languages](https://img.shields.io/badge/languages-english%20·%20español-555?style=flat-square)
 
@@ -61,6 +61,7 @@ BlazzitoUI is split into modules. The core is required; everything else can be t
 ### ⚔️ Action bars — `Blazzito_ActionBars`
 - Blizzard's bars (1–8, pet, stances, bags, micro menu and experience) in our style.
 - Button shapes, visibility rules and **swing timers** (melee and ranged).
+- Optionally lock bar 1's page, so Shift + mouse wheel no longer switches it.
 
 ### 🛡️ Auras — `Blazzito_Auras`
 - Buffs and debuffs on the unit frames, as icons or bars.
@@ -106,6 +107,11 @@ BlazzitoUI is split into modules. The core is required; everything else can be t
 
 ### 🗺️ Quests — `Blazzito_QuestTracker`
 - Touches on top of **Questie**'s tracker (it doesn't replace it): highlight quests, also from the map.
+
+### 🧿 Radial menu — `Blazzito_Radial`
+- One key (or a button on your bar) opens a ring with the game menu, character, spellbook, talents, professions,
+  bags, your **mounts** and **emotes** (/dance, /sit…). Hold, point and release, or tap and click. Works in combat.
+- Button shapes, orbit, direction indicator and accent color, with a live preview.
 
 ### ⚙️ Settings across characters — `Blazzito_Setup`
 - Copies your main's game settings (bars, options, Edit Mode, enabled addons) to your other characters (`/blazz`).

@@ -326,7 +326,7 @@ function B.SellJunk()
         if not merchantOpen then return end
         local item = list[i]
         if not item then
-            local money = GetCoinTextureString and GetCoinTextureString(total) or (total .. " c")
+            local money = M.Money(total)
             if sold == 1 then ns.Print("basura vendida: %d objeto por %s.", sold, money)
             else ns.Print("basura vendida: %d objetos por %s.", sold, money) end
             return

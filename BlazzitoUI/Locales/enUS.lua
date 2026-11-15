@@ -63,6 +63,7 @@ ns.LOCALES.en = {
     ["Bolsas y banco: nivel de objeto, mejoras, basura y atajos."] = "Bags and bank: item level, upgrades, junk and shortcuts.",
     ["Ajustes sobre el rastreador de misiones de Questie."] = "Tweaks for Questie's quest tracker.",
     ["Filtros, enlaces, emoticonos e historial del chat."] = "Chat filters, links, emotes and history.",
+    ["Una tecla abre un anillo con el menú, tus ventanas, monturas y gestos."] = "One key opens a ring with the game menu, your windows, mounts and emotes.",
     ["Presets de un clic, copias de seguridad y límite de FPS."] = "One-click presets, backups and FPS limits.",
     ["Mando o teclado y ratón al entrar, y cómo se adapta BlazzitoUI al estilo de mando."] = "Gamepad or keyboard and mouse on login, and how BlazzitoUI adapts to the gamepad style.",
     ["Botín rápido, reparación automática y vender basura."] = "Fast loot, auto repair and selling junk.",

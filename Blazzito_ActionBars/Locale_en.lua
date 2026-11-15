@@ -80,4 +80,7 @@ BlazzitoUI.AddLocale("en", {
     ["Ocultar el temporizador de Blizzard"] = "Hide Blizzard's swing timer",
     ["Los datos son los del temporizador de golpe del juego (WoW Forever): cada golpe de tu mano derecha, izquierda o ataque a distancia (disparo automático, varita) reinicia su barra. La mano izquierda solo aparece con dos armas y la de distancia con arco, fusil, arma arrojadiza o varita. Se colocan con el modo mover (arriba a la derecha) y /bui swing muestra su estado."] =
         "The data comes from the game's swing timer (WoW Forever): each swing of your main hand, off hand or ranged attack (Auto Shot, wand) restarts its bar. The off hand only shows with two weapons, and ranged with a bow, gun, thrown weapon or wand. Place them with move mode (top right) and /bui swing shows their status.",
+    ["Fijar la página de la barra 1 (sin Mayús + rueda)"] = "Lock bar 1's page (no Shift + mouse wheel)",
+    ["Con la página fijada, Mayús + rueda del ratón (y las teclas de página siguiente y anterior) ya no cambian la barra 1 a las páginas 2, 3, 4... Tus atajos no se tocan: al quitarla vuelven a funcionar como antes."] =
+        "With the page locked, Shift + mouse wheel (and the next and previous page keys) no longer switch bar 1 to pages 2, 3, 4... Your keybindings are not changed: turn it off and they work as before.",
 })

@@ -89,6 +89,11 @@ local function OnUnitEvent(driver, event)
         return
     end
     if part == "health" then
+        -- El golpe final: se suelta en cuanto muere, sin esperar a Blizzard.
+        if Readable(UnitIsDead(p.unit)) == true then
+            NP.Evaluate(p.unit)
+            return
+        end
         NP.UpdateHealth(p)
         if NP.db.execute > 0 then NP.UpdateColor(p) end
     elseif part == "name" then
@@ -186,10 +191,23 @@ function NP.Evaluate(unit)
         ufUnit[uf] = unit
         WatchHealthBar(uf)
     end
+    -- Muerto: se oculta la nuestra al instante, pero la de Blizzard sigue
+    -- invisible (si no, asomaría la suya hasta que el juego la retire, que
+    -- en Forever tarda unos segundos según cómo lo mires).
     local kind = NP.Kind(unit, uf)
+    if kind == "enemy" and Readable(UnitIsDead(unit)) == true then
+        if not (p and p.base == base) then
+            if p then Release(p) end
+            Acquire(base, unit, kind)
+            p = NP.byUnit[unit]
+        end
+        if p then p:Hide() end
+        return
+    end
     if kind then
         if p and p.base == base and p.uf == uf and p.kind == kind then
             NP.UpdateColor(p)    -- ya es nuestra: quizá cambió de color
+            if not p:IsShown() then p:Show(); NP.UpdateAll(p) end   -- revivió
             return
         end
         if p and p.base ~= base then Release(p) end

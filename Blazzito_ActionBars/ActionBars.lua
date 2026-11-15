@@ -108,7 +108,8 @@ local function BarDefaults(bar)
 end
 
 local defaults = { bars = {}, positions = {},
-                   style = { hideArt = true, fadeTime = 0.25, showWhileDragging = true, hideBlizzardSwing = true } }
+                   style = { hideArt = true, fadeTime = 0.25, showWhileDragging = true, hideBlizzardSwing = true,
+                             lockPaging = false } }
 for _, bar in ipairs(BARS) do defaults.bars[bar.key] = BarDefaults(bar) end
 
 local AB = ns.NewModule("ActionBars", "Barras de acción", defaults)
@@ -663,6 +664,32 @@ function AB.ApplyArt()
     for _, region in pairs(MainArt()) do Hold(region, AB.db.style.hideArt) end
 end
 
+---------------------------------------------------------------------------
+-- Página fija en la barra 1: las teclas de «página siguiente / anterior»
+-- (de serie Mayús + rueda) se tapan con un atajo prioritario (override) que
+-- pulsa un botón propio que no hace nada. Tus atajos no se cambian: al quitar
+-- la opción se borran los override y todo vuelve a ser como antes.
+---------------------------------------------------------------------------
+AB.PAGING_ACTIONS = { "NEXTACTIONPAGE", "PREVIOUSACTIONPAGE" }
+local pagingBlocker
+
+function AB.ApplyPaging()
+    if not (AB.db and SetOverrideBindingClick and ClearOverrideBindings and GetBindingKey) then return end
+    ns.AfterCombat("ActionBars:paging", function()
+        pagingBlocker = pagingBlocker or CreateFrame("Button", "BlazzitoUIPagingBlocker", UIParent)
+        -- Primero se quitan los nuestros, para leer tus atajos de verdad.
+        ClearOverrideBindings(pagingBlocker)
+        AB.pagingKeys = {}
+        if not (AB.active and AB.db.style.lockPaging) then return end
+        for _, action in ipairs(AB.PAGING_ACTIONS) do
+            for _, key in ipairs({ GetBindingKey(action) }) do
+                SetOverrideBindingClick(pagingBlocker, true, key, "BlazzitoUIPagingBlocker")
+                AB.pagingKeys[#AB.pagingKeys + 1] = key
+            end
+        end
+    end)
+end
+
 function AB.ApplyAll()
     if not AB.db then return end
     ns.AfterCombat("ActionBars:art", AB.ApplyArt)
@@ -857,4 +884,6 @@ function AB:OnEnable()
     ns.On("PLAYER_REGEN_ENABLED", function() inCombat = false end)
     inCombat = InCombatLockdown() and true or false
     AB.ApplyAll()
+    AB.ApplyPaging()
+    ns.On("PLAYER_ENTERING_WORLD", function() if AB.active then AB.ApplyPaging() end end)
 end

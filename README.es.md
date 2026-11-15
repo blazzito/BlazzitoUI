@@ -8,7 +8,7 @@
 
 **Una interfaz ligera y modular para World of Warcraft Forever**
 
-![Versión](https://img.shields.io/badge/versión-0.9.0-4fc3f7?style=flat-square)
+![Versión](https://img.shields.io/badge/versión-0.10.0-4fc3f7?style=flat-square)
 ![WoW Forever](https://img.shields.io/badge/WoW-Forever-c69b6d?style=flat-square)
 ![Idiomas](https://img.shields.io/badge/idiomas-español%20·%20english-555?style=flat-square)
 
@@ -59,6 +59,7 @@ BlazzitoUI está hecho de módulos. El núcleo es obligatorio y el resto lo acti
 ### ⚔️ Barras de acción — `Blazzito_ActionBars`
 - Las barras de Blizzard (1–8, mascota, posturas, bolsas, micromenú y experiencia) con nuestro estilo.
 - Formas de botón, reglas de visibilidad y **temporizadores de golpe** (cuerpo a cuerpo y a distancia).
+- Opcional: fijar la página de la barra 1, para que Mayús + rueda del ratón ya no la cambie.
 
 ### 🛡️ Auras — `Blazzito_Auras`
 - Beneficios y perjuicios en los marcos de unidad, como iconos o como barras.
@@ -104,6 +105,11 @@ BlazzitoUI está hecho de módulos. El núcleo es obligatorio y el resto lo acti
 
 ### 🗺️ Misiones — `Blazzito_QuestTracker`
 - Retoques sobre el rastreador de **Questie** (no lo reemplaza): destacar misiones, también desde el mapa.
+
+### 🧿 Menú radial — `Blazzito_Radial`
+- Una tecla (o un botón de tu barra) abre un anillo con el menú del juego, personaje, libro, talentos, profesiones,
+  bolsas, tus **monturas** y **gestos** (/dance, /sit…). Mantén, apunta y suelta, o toca y elige con el ratón. Funciona en combate.
+- Formas de botón, órbita, indicador de dirección y color del acento, con vista previa.
 
 ### ⚙️ Ajustes entre personajes — `Blazzito_Setup`
 - Copia la configuración del juego de tu personaje principal (barras, opciones, Edit Mode, addons activos)

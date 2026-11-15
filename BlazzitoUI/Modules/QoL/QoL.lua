@@ -14,10 +14,7 @@ ns.QoL = Q
 
 local Readable = ns.Media.Readable
 
-local function Money(copper)
-    if GetCoinTextureString then return GetCoinTextureString(copper) end
-    return tostring(copper) .. " c"
-end
+local Money = ns.Media.Money
 
 ---------------------------------------------------------------------------
 -- Botín rápido
